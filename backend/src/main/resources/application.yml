@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: online-wedding-invitation
+  datasource:
+    # Production / default: MySQL via env. Dev profile overrides with H2.
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/wedding_invitation?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      # Dev only. For production use ddl-auto: validate (or none) + Flyway/Liquibase.
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+  sql:
+    init:
+      mode: always
+      # data.sql contains NO credentials / no INSERTs (see its header comment).
+      # Seeding is done at runtime by DataSeeder with BCrypt via PasswordEncoder.
+      continue-on-error: true
+
+jwt:
+  # NEVER commit a real secret. Read from env JWT_SECRET in production.
+  # The fallback below is a DEV-ONLY secret for local development.
+  # It is base64 of a 64-byte dev phrase; replace via env in any shared env.
+  secret: ${JWT_SECRET:ZGV2LW9ubHktd2VkZGluZy1zZWNyZXQta2V5LWZvci1sb2NhbC1kZXZlbG9wbWVudC1vbmx5LWRvLW5vdC11c2UtaW4tcHJvZHVjdGlvbi0xMjM0NTY3ODkwYWJjZGVm}
+  expiration: 86400000 # 24h in milliseconds
+
+app:
+  frontend-url: ${FRONTEND_URL:http://localhost:5173}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.wedding: INFO
+    org.springframework.security: INFO
+    org.hibernate.SQL: WARN

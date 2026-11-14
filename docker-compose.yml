@@ -1,0 +1,77 @@
+# Online Wedding Invitation — Docker Compose (dev)
+#
+#   docker compose up -d          # chạy cả 3 service
+#   docker compose up -d mysql    # chỉ MySQL (chạy schema/seed tay)
+#   docker compose down           # dừng (giữ dữ liệu trong volume mysql_data)
+#   docker compose down -v        # dừng + XÓA dữ liệu MySQL (dev)
+#
+# Biến môi trường: copy .env.example (nếu có) thành .env rồi sửa.
+# Mọi giá trị dưới đây đều có default dev — KHÔNG dùng default này ở production.
+# Sau khi MySQL healthy, chạy schema + seed (xem database/README.md):
+#   docker compose exec -T mysql mysql -u root -p"${MYSQL_ROOT_PASSWORD:-rootpassword}" < database/schema.sql
+#   docker compose exec -T mysql mysql -u root -p"${MYSQL_ROOT_PASSWORD:-rootpassword}" < database/seed.sql
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: wedding-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-wedding_db}
+      MYSQL_USER: ${MYSQL_USER:-wedding}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-weddingpassword}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-rootpassword}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - wedding-net
+
+  backend:
+    build: ./backend
+    container_name: wedding-backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-wedding_db}?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-wedding}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-weddingpassword}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-key-change-me-in-production-min-32-chars}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@wedding.local}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Admin@123}
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - wedding-net
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Vite nhúng VITE_API_URL vào bundle lúc build — phải truyền qua build arg.
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8080/api}
+    container_name: wedding-frontend
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8080/api}
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - wedding-net
+
+volumes:
+  mysql_data:
+
+networks:
+  wedding-net:
+    driver: bridge

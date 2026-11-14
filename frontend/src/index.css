@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body {
+  background-color: #FAF6F0;
+  color: #4A3428;
+  font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.animate-fade-up { animation: fadeUp 0.8s ease both; }
+.animate-fade-in { animation: fadeIn 0.8s ease both; }
+.animate-float-slow { animation: floatSlow 4s ease-in-out infinite; }
+.animate-heart { animation: heartBeat 1.6s ease-in-out infinite; }
+
+.fade-in-section { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+
+.font-display { font-family: 'Playfair Display', serif; }
+.font-hand { font-family: 'Dancing Script', cursive; }
+
+.btn-gold {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-brown px-6 py-3 text-sm font-semibold tracking-wide text-cream transition hover:bg-brown-dark;
+}
+.btn-outline {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-brown/40 bg-white/60 px-6 py-3 text-sm font-semibold text-brown transition hover:bg-cream-dark;
+}
+.card { @apply rounded-2xl border border-brown/10 bg-white/70 p-6 shadow-sm; }
+.input {
+  @apply w-full rounded-xl border border-brown/20 bg-white px-4 py-2.5 text-sm text-brown-dark outline-none transition focus:border-brown focus:ring-2 focus:ring-brown/20;
+}
+.label { @apply mb-1.5 block text-sm font-medium text-brown-dark; }

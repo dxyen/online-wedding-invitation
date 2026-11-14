@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+target/
+out/
+*.jar
+*.war
+
+# Environment & secrets — KHÔNG commit mật khẩu / secret thật
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# IDE / editors
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# MySQL data (docker volume) & uploads
+mysql-data/
+data/
+uploads/
+**/uploads/**
+
+# Java / Maven
+*.class
+.mvn/wrapper/maven-wrapper.jar
+
+# Node / Vite
+.vite/
+vite.config.js.timestamp-*
+
+# OS
+*.tmp
+*.temp
