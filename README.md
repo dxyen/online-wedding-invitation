@@ -27,6 +27,16 @@ Thiệp mẫu đã có sẵn trong database:
 > Ngày cưới, giờ lễ/tiệc, địa điểm, ảnh và lời chúc trong seed đều là dữ liệu
 > demo, sửa được qua trang Admin — không cần sửa code hay SQL.
 
+## Nhạc nền
+
+Thiệp phát bản thu gốc **"Em Đồng Ý (I Do)" — Đức Phúc × 911 × Khắc Hưng**
+khi khách bấm "Mở Thiệp":
+
+- File nhạc nhúng sẵn: `frontend/public/audio/em-dong-y-i-do.mp3` (128kbps/44.1kHz, 3:41).
+- Bắt đầu phát từ **giây 16** (bỏ qua đoạn dạo đầu); hết bài thì lặp lại từ giây 16.
+- Nút nhạc tròn ở góc dưới bên phải để tạm dừng / phát tiếp đúng chỗ đang dừng.
+- Component: `frontend/src/components/MusicToggle.tsx` (thẻ `<audio>`, không dùng WebAudio).
+
 ## Cấu trúc thư mục
 
 ```

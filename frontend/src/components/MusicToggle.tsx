@@ -1,59 +1,97 @@
-import { useEffect, useRef, useState } from 'react'
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 
-// Nhạc nền tự tạo bằng WebAudio: giai điệu piano đơn giản, không cần file mp3.
-const MELODY = [523.25, 587.33, 659.25, 783.99, 659.25, 587.33, 523.25, 392.0, 440.0, 523.25]
+// Nhạc nền: bản thu gốc "Em Đồng Ý (I Do)" — Đức Phúc × 911 × Khắc Hưng,
+// nhúng sẵn dưới dạng file MP3 trong frontend (public/audio/em-dong-y-i-do.mp3).
+// Phát bằng thẻ <audio> có sẵn của trình duyệt, không dùng WebAudio.
+export const MUSIC_START_SECONDS = 16
+const MUSIC_SRC = '/audio/em-dong-y-i-do.mp3'
+const SONG_LABEL = 'Em Đồng Ý (I Do) — Đức Phúc × 911'
 
-export default function MusicToggle() {
+export interface MusicToggleHandle {
+  /** Bắt đầu phát từ giây 16. Gọi trong cử chỉ người dùng (bấm "Mở Thiệp") để trình duyệt cho phép phát. */
+  start: () => void
+}
+
+const MusicToggle = forwardRef<MusicToggleHandle>(function MusicToggle(_, ref) {
+  const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
-  const ctxRef = useRef<AudioContext | null>(null)
-  const timerRef = useRef<number | null>(null)
-  const noteRef = useRef(0)
+  const startedRef = useRef(false)
 
-  const playNote = (ctx: AudioContext, freq: number, when: number) => {
-    const osc = ctx.createOscillator()
-    const gain = ctx.createGain()
-    osc.type = 'sine'
-    osc.frequency.value = freq
-    gain.gain.setValueAtTime(0.0001, when)
-    gain.gain.exponentialRampToValueAtTime(0.18, when + 0.05)
-    gain.gain.exponentialRampToValueAtTime(0.0001, when + 1.4)
-    osc.connect(gain).connect(ctx.destination)
-    osc.start(when)
-    osc.stop(when + 1.5)
+  const seekToStart = useCallback(() => {
+    const audio = audioRef.current
+    if (audio) audio.currentTime = MUSIC_START_SECONDS
+  }, [])
+
+  const start = useCallback(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    if (startedRef.current) {
+      // Đã bắt đầu rồi: chỉ phát tiếp, không tua lại giây 16.
+      void audio.play().catch(() => undefined)
+      return
+    }
+    startedRef.current = true
+    const playFromStart = () => {
+      seekToStart()
+      audio.play().catch(() => { startedRef.current = false })
+    }
+    if (audio.readyState >= 1) {
+      playFromStart()
+    } else {
+      audio.addEventListener('loadedmetadata', playFromStart, { once: true })
+    }
+  }, [seekToStart])
+
+  useImperativeHandle(ref, () => ({ start }), [start])
+
+  const toggle = () => {
+    const audio = audioRef.current
+    if (!audio) return
+    if (audio.paused) {
+      // Phát tiếp đúng chỗ đang dừng, không tua lại giây 16.
+      void audio.play().catch(() => undefined)
+    } else {
+      audio.pause()
+    }
   }
 
-  const stop = () => {
-    if (timerRef.current) window.clearInterval(timerRef.current)
-    timerRef.current = null
-    setPlaying(false)
-  }
-
-  const toggle = async () => {
-    if (playing) { stop(); return }
-    if (!ctxRef.current) ctxRef.current = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)()
-    const ctx = ctxRef.current
-    await ctx.resume()
-    noteRef.current = 0
-    setPlaying(true)
-    timerRef.current = window.setInterval(() => {
-      const freq = MELODY[noteRef.current % MELODY.length]
-      noteRef.current += 1
-      playNote(ctx, freq, ctx.currentTime)
-    }, 700)
-  }
-
-  useEffect(() => () => { if (timerRef.current) window.clearInterval(timerRef.current); void ctxRef.current?.close() }, [])
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    const onPlay = () => setPlaying(true)
+    const onPause = () => setPlaying(false)
+    const onEnded = () => {
+      // Hết bài: lặp lại từ giây 16 thay vì về đầu bài.
+      seekToStart()
+      void audio.play().catch(() => undefined)
+    }
+    audio.addEventListener('play', onPlay)
+    audio.addEventListener('pause', onPause)
+    audio.addEventListener('ended', onEnded)
+    return () => {
+      audio.removeEventListener('play', onPlay)
+      audio.removeEventListener('pause', onPause)
+      audio.removeEventListener('ended', onEnded)
+    }
+  }, [seekToStart])
 
   return (
-    <button
-      type="button"
-      onClick={toggle}
-      aria-label={playing ? 'Tắt nhạc nền' : 'Bật nhạc nền'}
-      className="fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-brown text-xl text-cream shadow-lg transition hover:bg-brown-dark"
-      title={playing ? 'Tắt nhạc nền' : 'Bật nhạc nền (giai điệu piano)'}
-    >
-      {playing ? '♪' : '♫'}
-      <span className="sr-only">{playing ? 'Tắt nhạc' : 'Bật nhạc'}</span>
-    </button>
+    <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2">
+      <span className="max-w-[220px] truncate rounded-full bg-white/85 px-3 py-1 text-xs font-medium text-brown-dark shadow backdrop-blur">
+        {SONG_LABEL}
+      </span>
+      <button
+        type="button"
+        onClick={toggle}
+        aria-label={playing ? 'Tạm dừng nhạc nền' : 'Phát nhạc nền'}
+        aria-pressed={playing}
+        className="flex h-12 w-12 items-center justify-center rounded-full bg-brown text-xl text-cream shadow-lg transition hover:bg-brown-dark"
+        title={`${SONG_LABEL} — ${playing ? 'đang phát, bấm để tạm dừng' : 'bấm để phát'}`}
+      >
+        {playing ? '♪' : '♫'}
+      </button>
+    </div>
   )
-}
+})
+
+export default MusicToggle
