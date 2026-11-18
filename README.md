@@ -101,16 +101,16 @@ cd backend
 # Backend chạy tại http://localhost:8080
 ```
 
-**Profile dev dùng H2 (không cần MySQL)** — chỉ để chạy thử nhanh:
+**Chạy thử nhanh bằng H2 (không cần MySQL)** — dùng profile `dev`:
 
 ```bash
 cd backend
-./mvnw spring-boot:run -Dspring-boot.run.profiles=dev-h2
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-Profile `dev-h2` dùng H2 in-memory: Hibernate tự tạo bảng, `DataSeeder`
+Profile `dev` dùng H2 in-memory: Hibernate tự tạo bảng, `DataSeeder`
 chèn admin + wedding tối thiểu. Dữ liệu mất khi tắt app, không dùng cho
-dữ liệu thật.
+dữ liệu thật. Không chọn profile nào (mặc định) thì backend dùng MySQL.
 
 ## Cách chạy frontend riêng (không dùng Docker cho frontend)
 
@@ -144,7 +144,7 @@ cho dev.
 | `MYSQL_USER` | `wedding` | MySQL / backend | User ứng dụng |
 | `MYSQL_PASSWORD` | `weddingpassword` | MySQL / backend | Mật khẩu user ứng dụng |
 | `SPRING_DATASOURCE_URL` | `jdbc:mysql://mysql:3306/wedding_db?...` | Backend | JDBC URL (docker-compose tự ráp từ các biến MySQL) |
-| `SPRING_PROFILES_ACTIVE` | `dev` | Backend | `dev` (MySQL) hoặc `dev-h2` (H2 chạy thử) |
+| `SPRING_PROFILES_ACTIVE` | _(trống)_ | Backend | Không đặt = MySQL (mặc định); `dev` = H2 chạy thử nhanh |
 | `JWT_SECRET` | `dev-secret-key-change-me-...` | Backend | Secret ký JWT (tối thiểu 32 ký tự) — **bắt buộc đổi ở production** |
 | `FRONTEND_URL` | `http://localhost:5173` | Backend | URL frontend, dùng cho CORS |
 | `ADMIN_EMAIL` | `admin@wedding.local` | Backend (`DataSeeder`) | Email admin dev |

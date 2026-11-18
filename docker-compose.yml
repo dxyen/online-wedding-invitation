@@ -40,7 +40,9 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE:-wedding_db}?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-wedding}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-weddingpassword}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      # Không đặt mặc định là `dev`: không có profile = MySQL (application.yml).
+      # Chỉ đặt SPRING_PROFILES_ACTIVE=dev trong .env khi muốn chạy thử nhanh bằng H2.
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-}
       JWT_SECRET: ${JWT_SECRET:-dev-secret-key-change-me-in-production-min-32-chars}
       FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@wedding.local}
