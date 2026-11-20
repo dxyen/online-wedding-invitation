@@ -15,9 +15,8 @@ Thiệp mẫu đã có sẵn trong database:
 | | |
 | --- | --- |
 | Cô dâu & chú rể | **Thanh Trúc & Xuân Yên** (nữ trước, monogram T ♥ Y) |
-| Ngày cưới | **03/01/2026** |
-| Lễ Thành Hôn | 09:00 — White Palace Hoàng Văn Thụ |
-| Tiệc Cưới | 18:00 — White Palace Hoàng Văn Thụ, 194 Hoàng Văn Thụ, Phú Nhuận |
+| Ngày cưới | **27/12/2026** |
+| Lễ Thành Hôn & Tiệc Cưới | 08:00 — Tư gia, Thạnh Hưng, An Giang (đón khách từ 07:30) |
 | Slug / URL thiệp | `thanh-truc-xuan-yen` → `http://localhost:5173/w/thanh-truc-xuan-yen` |
 | API public | `http://localhost:8080/api/public/weddings/thanh-truc-xuan-yen` |
 
@@ -199,7 +198,7 @@ Swagger khi backend chạy: http://localhost:8080/swagger-ui.html
 | GET | `/api/public/weddings/{slug}/album` | Album ảnh |
 | GET | `/api/public/weddings/{slug}/events` | Sự kiện lễ / tiệc |
 | GET | `/api/public/weddings/{slug}/wishes` | Lời chúc đã duyệt |
-| GET | `/api/public/weddings/{slug}/gift-accounts` | Tài khoản hộp quà (số mẫu) |
+| GET | `/api/public/weddings/{slug}/gift-accounts` | Tài khoản hộp quà (số thật TPBank) |
 | POST | `/api/public/weddings/{slug}/rsvp` | Gửi xác nhận tham dự |
 | POST | `/api/public/weddings/{slug}/wishes` | Gửi lời chúc (chờ duyệt) |
 

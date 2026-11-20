@@ -7,19 +7,19 @@
 --
 --   mysql -h 127.0.0.1 -P 3306 -u wedding -p wedding_db < database/seed.sql
 --
--- Seed demo:
+-- Seed:
 --   Cô dâu Thanh Trúc & chú rể Xuân Yên — nữ trước, monogram T ♥ Y
 --   Slug: thanh-truc-xuan-yen — URL public: /w/thanh-truc-xuan-yen
---   Ngày cưới: 03/01/2026
---   Lễ Thành Hôn 09:00, Tiệc Cưới 18:00 — White Palace Hoàng Văn Thụ,
---   194 Hoàng Văn Thụ, Phú Nhuận
+--   Ngày cưới: 27/12/2026
+--   Lễ Thành Hôn & Tiệc Cưới gộp chung 08:00 (đón khách 07:30) tại tư gia,
+--   Thạnh Hưng, An Giang — bản đồ: https://maps.app.goo.gl/DGPB7o7WHyMbqfGv9
 --
 -- Các cột trong file này KHỚP 1-1 với JPA entity backend
 -- (xem database/schema.sql) — đừng sửa lệch khỏi entity.
 --
--- ⚠ SỐ TÀI KHOẢN HỘP QUÀ TRONG FILE NÀY LÀ SỐ MẪU (vd: 1903123456),
---   KHÔNG PHẢI SỐ THẬT. Đổi sang số thật qua trang Admin / Admin API
---   trước khi gửi thiệp cho khách.
+-- ⚠ SỐ TÀI KHOẢN HỘP QUÀ TRONG FILE NÀY LÀ SỐ THẬT (TPBank, VietQR).
+--   qr_payload là chuỗi payload VietQR giải mã từ mã QR thật;
+--   frontend vẽ mã QR từ chuỗi này, không cần file ảnh nhị phân.
 --
 -- ⚠ KHÔNG insert users / password hash trong file này. Tài khoản admin dev
 --   admin@wedding.local / Admin@123 do backend DataSeeder tạo lúc chạy
@@ -39,8 +39,8 @@ INSERT INTO weddings
   (slug, title, wedding_date, ceremony_time, reception_time,
    venue_name, venue_address, music_url, template, greeting_message)
 VALUES
-  ('thanh-truc-xuan-yen', 'Thanh Trúc & Xuân Yên', '2026-01-03', '09:00:00', '18:00:00',
-   'White Palace Hoàng Văn Thụ', '194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh',
+  ('thanh-truc-xuan-yen', 'Thanh Trúc & Xuân Yên', '2026-12-27', '08:00:00', '08:00:00',
+   'Tư gia', 'Thạnh Hưng, An Giang',
    'https://cdn.example.com/music/wedding-theme.mp3',
    'thiep-cuoi-hien-dai',
    'Trân trọng kính mời Quý khách đến dự buổi tiệc chung vui cùng gia đình chúng tôi.')
@@ -73,18 +73,15 @@ VALUES
    'T ♥ Y', 'Thanh Trúc & Xuân Yên');
 
 -- ----------------------------------------------------------------------------
--- 3. Wedding events — 2 sự kiện ngày 03/01/2026 tại White Palace.
+-- 3. Wedding events — Lễ Thành Hôn & Tiệc Cưới gộp chung 08:00 ngày 27/12/2026 tại tư gia.
 -- ----------------------------------------------------------------------------
 INSERT INTO wedding_events
   (wedding_id, title, event_type, event_date, start_time, end_time,
    location, address, description, sort_order)
 VALUES
-  (@wedding_id, 'Lễ Thành Hôn', 'CEREMONY', '2026-01-03', '09:00:00', '11:00:00',
-   'White Palace Hoàng Văn Thụ', '194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh',
-   'Lễ Thành Hôn trong không khí ấm cúng cùng gia đình hai bên.', 1),
-  (@wedding_id, 'Tiệc Cưới', 'RECEPTION', '2026-01-03', '18:00:00', '21:00:00',
-   'White Palace Hoàng Văn Thụ', '194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh',
-   'Tiệc Cưới chiêu đãi bạn bè, đồng nghiệp — cùng nâng ly chúc mừng hạnh phúc của Thanh Trúc & Xuân Yên.', 2);
+  (@wedding_id, 'Lễ Thành Hôn & Tiệc Cưới', 'CEREMONY', '2026-12-27', '08:00:00', '10:30:00',
+   'Tư gia', 'Thạnh Hưng, An Giang',
+   'Lễ thành hôn và tiệc cưới được tổ chức tại tư gia — nghi lễ truyền thống cùng hai họ, nối tiếp là tiệc mừng chung vui cùng gia đình và quan khách.', 1);
 
 -- ----------------------------------------------------------------------------
 -- 4. Timeline — 4 mốc câu chuyện tình yêu.
@@ -102,7 +99,7 @@ VALUES
    'Đêm Giáng sinh, Yên quỳ gối với chiếc nhẫn giấu trong hộp quà. Trúc khóc — và nói “Em đồng ý”.',
    '2024-12-24', 'https://picsum.photos/seed/thanh-truc-xuan-yen-timeline-3/800/600', 3),
   (@wedding_id, 'Lễ ăn hỏi',
-   'Hai gia đình chính thức gặp nhau, trao lễ vật và chọn ngày lành 03/01/2026 cho đám cưới.',
+   'Hai gia đình chính thức gặp nhau, trao lễ vật và chọn ngày lành 27/12/2026 cho đám cưới.',
    '2025-11-15', 'https://picsum.photos/seed/thanh-truc-xuan-yen-timeline-4/800/600', 4);
 
 -- ----------------------------------------------------------------------------
@@ -120,18 +117,16 @@ VALUES
   (@wedding_id, 'https://picsum.photos/seed/thanh-truc-xuan-yen-6/800/600', 'Chuẩn bị cho ngày trọng đại', 6);
 
 -- ----------------------------------------------------------------------------
--- 6. Gift accounts — 3 tài khoản MẪU (SỐ MẪU, KHÔNG PHẢI SỐ THẬT).
---    Đổi sang số thật qua Admin trước khi gửi thiệp cho khách.
+-- 6. Gift accounts — 2 tài khoản THẬT (TPBank, VietQR).
+--    qr_payload là chuỗi payload VietQR giải mã từ mã QR thật do hai bạn cung cấp.
 -- ----------------------------------------------------------------------------
 INSERT INTO gift_accounts
-  (wedding_id, account_holder, bank_name, account_number, branch, qr_code_url, side, sort_order)
+  (wedding_id, account_holder, bank_name, account_number, branch, qr_code_url, qr_payload, side, sort_order)
 VALUES
-  (@wedding_id, 'THANH TRUC', 'Vietcombank', '1903123456', 'Chi nhánh Phú Nhuận',
-   'https://picsum.photos/seed/thanh-truc-xuan-yen-qr-bride/400/400', 'BRIDE', 1),
-  (@wedding_id, 'THANH TRUC', 'MB Bank', '1903123457', 'Chi nhánh Phú Nhuận',
-   'https://picsum.photos/seed/thanh-truc-xuan-yen-qr-bride-mb/400/400', 'BRIDE', 2),
-  (@wedding_id, 'XUAN YEN', 'Techcombank', '1903765432', 'Chi nhánh Phú Nhuận',
-   'https://picsum.photos/seed/thanh-truc-xuan-yen-qr-groom/400/400', 'GROOM', 3);
+  (@wedding_id, 'VO THI THANH TRUC', 'TPBank', '0000 0846 416', NULL, NULL,
+   '0002010102111531397007040052044600000000084641638550010A000000727012500069704230111000008464160208QRIBFTTA5204513753037045802VN5917VO THI THANH TRUC6006Ha Noi8707CLASSIC63040E47', 'BRIDE', 1),
+  (@wedding_id, 'DO XUAN YEN', 'TPBank', '3719 1472 484', NULL, NULL,
+   '0002010102111531397007040052044600003719147248438530010A000000727012300069704230109doxuanyen0208QRIBFTTA5204513753037045802VN5911DO XUAN YEN6006Ha Noi8707CLASSIC63045EFF', 'GROOM', 2);
 
 -- ----------------------------------------------------------------------------
 -- 7. Guests — 5 khách mời mẫu.
@@ -159,19 +154,17 @@ VALUES
    'Tiếc quá mình ở xa không về kịp, chúc hai bạn trăm năm hạnh phúc!');
 
 -- ----------------------------------------------------------------------------
--- 9. Wishes — 4 mẫu: 2 đã duyệt (hiện public), 2 chờ duyệt.
+-- 9. Wishes — 3 lời chúc đã duyệt: 2 lời của cô dâu chú rể chúc nhau + 1 lời của Phương Thảo.
 -- ----------------------------------------------------------------------------
 INSERT INTO wishes
   (wedding_id, sender_name, message, approved)
 VALUES
-  (@wedding_id, 'Minh Anh',
-   'Chúc Trúc và Yên trăm năm hạnh phúc, sớm có tin vui nhé!', 1),
-  (@wedding_id, 'Quốc Bảo',
-   'Chúc mừng hai bạn! Một đám cưới thật đẹp và một cuộc đời thật viên mãn.', 1),
-  (@wedding_id, 'Thu Hằng',
-   'Từ xa gửi lời chúc tốt đẹp nhất đến hai bạn, mãi hạnh phúc nhé!', 0),
-  (@wedding_id, 'Gia đình nhà gái',
-   'Chúc hai con luôn yêu thương, nhường nhịn và đồng hành cùng nhau suốt đời.', 0);
+  (@wedding_id, 'Thanh Trúc',
+   'Cảm ơn anh đã đến bên em và cùng em đi qua bao ngày nắng mưa. Từ hôm nay, em chính thức là vợ anh — cùng nhau xây một mái nhà bình yên, nắm tay nhau đi hết những mùa hoa nhé!', 1),
+  (@wedding_id, 'Xuân Yên',
+   'Cảm ơn em đã chọn anh giữa bao người. Anh hứa sẽ yêu thương, chở che em suốt đời — từ hôm nay, chúng ta là một gia đình.', 1),
+  (@wedding_id, 'Phương Thảo',
+   'Trúc xinh quá đi! Chúc hai bạn một đời bình an, nắm tay nhau đi hết những mùa hoa.', 1);
 
 -- ----------------------------------------------------------------------------
 -- Kiểm tra nhanh sau khi seed (kết quả hiển thị khi chạy bằng mysql client):

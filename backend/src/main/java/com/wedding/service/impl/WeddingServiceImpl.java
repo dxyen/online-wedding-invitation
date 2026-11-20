@@ -311,7 +311,7 @@ public class WeddingServiceImpl implements WeddingService {
         GiftAccount account = GiftAccount.builder()
                 .wedding(wedding).accountHolder(request.getAccountHolder()).bankName(request.getBankName())
                 .accountNumber(request.getAccountNumber()).branch(request.getBranch())
-                .qrCodeUrl(request.getQrCodeUrl()).side(request.getSide())
+                .qrCodeUrl(request.getQrCodeUrl()).qrPayload(request.getQrPayload()).side(request.getSide())
                 .sortOrder(request.getSortOrder() != null ? request.getSortOrder() : 0).build();
         return mapper.toResponse(giftRepository.save(account));
     }
@@ -326,6 +326,7 @@ public class WeddingServiceImpl implements WeddingService {
         account.setAccountNumber(request.getAccountNumber());
         account.setBranch(request.getBranch());
         account.setQrCodeUrl(request.getQrCodeUrl());
+        account.setQrPayload(request.getQrPayload());
         account.setSide(request.getSide());
         if (request.getSortOrder() != null) account.setSortOrder(request.getSortOrder());
         return mapper.toResponse(giftRepository.save(account));

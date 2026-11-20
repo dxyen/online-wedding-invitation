@@ -10,12 +10,11 @@ export const fallbackWedding: Wedding = {
   slug: FALLBACK_SLUG,
   brideName: 'Thanh Trúc',
   groomName: 'Xuân Yên',
-  weddingDate: '2026-01-03',
-  venueName: 'White Palace Hoàng Văn Thụ',
-  venueAddress: '194 Hoàng Văn Thụ, Phú Nhuận',
-  ceremonyTime: '09:00',
-  receptionTime: '18:00',
-  dressCode: 'Xanh lá · Be · Kem · Nâu',
+  weddingDate: '2026-12-27',
+  venueName: 'Tư gia',
+  venueAddress: 'Thạnh Hưng, An Giang',
+  ceremonyTime: '08:00',
+  receptionTime: '08:00',
   invitationText:
     'Trân trọng kính mời Quý khách đến dự Lễ Thành Hôn và Tiệc Cưới của chúng tôi. Sự hiện diện của Quý khách là niềm vinh hạnh và món quà ý nghĩa nhất dành cho hai gia đình.',
   couple: {
@@ -27,8 +26,7 @@ export const fallbackWedding: Wedding = {
     groomBio: 'Chú rể hiền lành, chân thành — một nửa còn lại của Thanh Trúc.'
   },
   events: [
-    { id: 1, title: 'Lễ Thành Hôn', time: '09:00', date: '03/01/2026', description: 'Lễ Thành Hôn tại White Palace Hoàng Văn Thụ.', venueName: 'White Palace Hoàng Văn Thụ', venueAddress: '194 Hoàng Văn Thụ, Phú Nhuận' },
-    { id: 2, title: 'Tiệc Cưới', time: '18:00', date: '03/01/2026', description: 'Tiệc Cưới — đón khách từ 17:30.', venueName: 'White Palace Hoàng Văn Thụ', venueAddress: '194 Hoàng Văn Thụ, Phú Nhuận' }
+    { id: 1, title: 'Lễ Thành Hôn & Tiệc Cưới', time: '08:00', date: '27/12/2026', description: 'Lễ thành hôn và tiệc cưới được tổ chức tại tư gia — nghi lễ truyền thống cùng hai họ, nối tiếp là tiệc mừng chung vui cùng gia đình và quan khách.', venueName: 'Tư gia', venueAddress: 'Thạnh Hưng, An Giang' }
   ]
 }
 
@@ -51,12 +49,15 @@ export const fallbackAlbum: AlbumPhoto[] = [
 ]
 
 export const fallbackWishes: Wish[] = [
-  { id: 1, guestName: 'Gia đình hai bên', message: 'Chúc hai con trăm năm hạnh phúc, sớm sinh quý tử!', approved: true, createdAt: '2025-12-01' },
-  { id: 2, guestName: 'Bạn thân', message: 'Chúc mừng Thanh Trúc & Xuân Yên! Mãi hạnh phúc nhé!', approved: true, createdAt: '2025-12-02' }
+  { id: 1, guestName: 'Thanh Trúc', message: 'Cảm ơn anh đã đến bên em và cùng em đi qua bao ngày nắng mưa. Từ hôm nay, em chính thức là vợ anh — cùng nhau xây một mái nhà bình yên, nắm tay nhau đi hết những mùa hoa nhé!', approved: true, createdAt: '2026-12-27' },
+  { id: 2, guestName: 'Xuân Yên', message: 'Cảm ơn em đã chọn anh giữa bao người. Anh hứa sẽ yêu thương, chở che em suốt đời — từ hôm nay, chúng ta là một gia đình.', approved: true, createdAt: '2026-12-27' },
+  { id: 3, guestName: 'Phương Thảo', message: 'Trúc xinh quá đi! Chúc hai bạn một đời bình an, nắm tay nhau đi hết những mùa hoa.', approved: true, createdAt: '2025-10-20' }
 ]
 
-// SỐ TÀI KHOẢN MẪU — chỉ để xem trước giao diện, KHÔNG phải số thật.
+// SỐ TÀI KHOẢN THẬT của cô dâu và chú rể (TPBank, VietQR).
+// qrPayload là chuỗi payload VietQR giải mã từ mã QR thật do hai bạn cung cấp;
+// frontend vẽ mã QR từ chuỗi này nên không cần file ảnh nhị phân.
 export const fallbackGiftAccounts: GiftAccount[] = [
-  { id: 1, ownerName: 'Xuân Yên', bankName: 'Ngân hàng mẫu (demo)', accountNumber: '0000 0000 0000', accountHolder: 'XUÂN YÊN', role: 'GROOM' },
-  { id: 2, ownerName: 'Thanh Trúc', bankName: 'Ngân hàng mẫu (demo)', accountNumber: '1111 1111 1111', accountHolder: 'THANH TRÚC', role: 'BRIDE' }
+  { id: 1, ownerName: 'Thanh Trúc', bankName: 'TPBank', accountNumber: '0000 0846 416', accountHolder: 'VO THI THANH TRUC', role: 'BRIDE', qrPayload: '0002010102111531397007040052044600000000084641638550010A000000727012500069704230111000008464160208QRIBFTTA5204513753037045802VN5917VO THI THANH TRUC6006Ha Noi8707CLASSIC63040E47' },
+  { id: 2, ownerName: 'Xuân Yên', bankName: 'TPBank', accountNumber: '3719 1472 484', accountHolder: 'DO XUAN YEN', role: 'GROOM', qrPayload: '0002010102111531397007040052044600003719147248438530010A000000727012300069704230109doxuanyen0208QRIBFTTA5204513753037045802VN5911DO XUAN YEN6006Ha Noi8707CLASSIC63045EFF' }
 ]

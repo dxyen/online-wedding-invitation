@@ -46,7 +46,6 @@ export default function AdminWedding() {
           <div><label className="label" htmlFor="ceremony">Giờ Lễ Thành Hôn</label><input id="ceremony" className="input" value={wedding.ceremonyTime || ''} onChange={(e) => set({ ceremonyTime: e.target.value })} /></div>
           <div><label className="label" htmlFor="reception">Giờ Tiệc Cưới</label><input id="reception" className="input" value={wedding.receptionTime || ''} onChange={(e) => set({ receptionTime: e.target.value })} /></div>
         </div>
-        <div><label className="label" htmlFor="dress">Dress code</label><input id="dress" className="input" value={wedding.dressCode || ''} onChange={(e) => set({ dressCode: e.target.value })} /></div>
         <div><label className="label" htmlFor="invite">Lời mời</label><textarea id="invite" rows={4} className="input" value={wedding.invitationText || ''} onChange={(e) => set({ invitationText: e.target.value })} /></div>
         {msg && <p className="rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">{msg}</p>}
         {error && <p className="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{error}</p>}

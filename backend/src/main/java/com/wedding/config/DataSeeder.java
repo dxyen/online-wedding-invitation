@@ -16,8 +16,9 @@ import java.time.LocalTime;
  * hashed here at runtime with BCrypt PasswordEncoder; no plaintext password
  * and no fabricated hash is stored anywhere in source or SQL.
  * Seed wedding: Thanh Truc &amp; Xuan Yen, slug thanh-truc-xuan-yen,
- * 03/01/2026, Le Thanh Hon 09:00, Tiec Cuoi 18:00,
- * White Palace Hoang Van Thu, 194 Hoang Van Thu, Phu Nhuan.
+ * 27/12/2026, Le Thanh Hon &amp; Tiec Cuoi gop chung 08:00 (don khach 07:30),
+ * tai tu gia — Thach Hung, An Giang (ban do: https://maps.app.goo.gl/DGPB7o7WHyMbqfGv9).
+ * Tai khoan hop qua la SO THAT (TPBank, VietQR).
  * All seed values are editable later via the Admin API.
  */
 @Component
@@ -52,11 +53,11 @@ public class DataSeeder implements CommandLineRunner {
             Wedding wedding = Wedding.builder()
                     .slug("thanh-truc-xuan-yen")
                     .title("Thanh Trúc & Xuân Yên")
-                    .weddingDate(LocalDate.of(2026, 1, 3))
-                    .ceremonyTime(LocalTime.of(9, 0))
-                    .receptionTime(LocalTime.of(18, 0))
-                    .venueName("White Palace Hoàng Văn Thụ")
-                    .venueAddress("194 Hoàng Văn Thụ, Phú Nhuận")
+                    .weddingDate(LocalDate.of(2026, 12, 27))
+                    .ceremonyTime(LocalTime.of(8, 0))
+                    .receptionTime(LocalTime.of(8, 0))
+                    .venueName("Tư gia")
+                    .venueAddress("Thạnh Hưng, An Giang")
                     .template("thiep-cuoi-hien-dai")
                     .greetingMessage("Trân trọng kính mời quý khách đến dự lễ cưới của chúng tôi.")
                     .build();
@@ -70,16 +71,13 @@ public class DataSeeder implements CommandLineRunner {
                     .build();
             wedding.setCouple(couple);
 
+            // Lễ Thành Hôn và Tiệc Cưới gộp chung một buổi sáng tại tư gia.
             wedding.getEvents().add(WeddingEvent.builder()
-                    .wedding(wedding).title("Lễ Thành Hôn").eventType("CEREMONY")
-                    .eventDate(LocalDate.of(2026, 1, 3)).startTime(LocalTime.of(9, 0))
-                    .location("White Palace Hoàng Văn Thụ").address("194 Hoàng Văn Thụ, Phú Nhuận")
-                    .description("Lễ Thành Hôn lúc 09:00").sortOrder(1).build());
-            wedding.getEvents().add(WeddingEvent.builder()
-                    .wedding(wedding).title("Tiệc Cưới").eventType("RECEPTION")
-                    .eventDate(LocalDate.of(2026, 1, 3)).startTime(LocalTime.of(18, 0))
-                    .location("White Palace Hoàng Văn Thụ").address("194 Hoàng Văn Thụ, Phú Nhuận")
-                    .description("Tiệc Cưới lúc 18:00").sortOrder(2).build());
+                    .wedding(wedding).title("Lễ Thành Hôn & Tiệc Cưới").eventType("CEREMONY")
+                    .eventDate(LocalDate.of(2026, 12, 27)).startTime(LocalTime.of(8, 0))
+                    .endTime(LocalTime.of(10, 30))
+                    .location("Tư gia").address("Thạnh Hưng, An Giang")
+                    .description("Lễ thành hôn và tiệc cưới được tổ chức tại tư gia — nghi lễ truyền thống cùng hai họ, nối tiếp là tiệc mừng chung vui cùng gia đình và quan khách.").sortOrder(1).build());
 
             wedding.getTimelineItems().add(TimelineItem.builder()
                     .wedding(wedding).title("Lần đầu gặp nhau")
@@ -90,21 +88,27 @@ public class DataSeeder implements CommandLineRunner {
                     .description("Và rồi một ngày, Xuân Yên đã ngỏ lời.")
                     .sortOrder(2).build());
             wedding.getTimelineItems().add(TimelineItem.builder()
-                    .wedding(wedding).title("Ngày cưới 03/01/2026")
+                    .wedding(wedding).title("Ngày cưới 27/12/2026")
                     .description("Chúng tôi chính thức về chung một nhà.")
-                    .eventDate(LocalDate.of(2026, 1, 3)).sortOrder(3).build());
+                    .eventDate(LocalDate.of(2026, 12, 27)).sortOrder(3).build());
 
             wedding.getAlbumPhotos().add(AlbumPhoto.builder()
                     .wedding(wedding).imageUrl("/images/album/1.jpg").caption("Thanh Trúc & Xuân Yên").sortOrder(1).build());
             wedding.getAlbumPhotos().add(AlbumPhoto.builder()
                     .wedding(wedding).imageUrl("/images/album/2.jpg").caption("Khoảnh khắc yêu thương").sortOrder(2).build());
 
+            // Tài khoản hộp quà THẬT (TPBank, VietQR) — qrPayload là chuỗi
+            // payload VietQR giải mã từ mã QR thật; frontend vẽ mã QR từ chuỗi này.
             wedding.getGiftAccounts().add(GiftAccount.builder()
-                    .wedding(wedding).accountHolder("Thanh Trúc").bankName("Vietcombank")
-                    .accountNumber("0000000000").side("BRIDE").sortOrder(1).build());
+                    .wedding(wedding).accountHolder("VO THI THANH TRUC").bankName("TPBank")
+                    .accountNumber("0000 0846 416").side("BRIDE")
+                    .qrPayload("0002010102111531397007040052044600000000084641638550010A000000727012500069704230111000008464160208QRIBFTTA5204513753037045802VN5917VO THI THANH TRUC6006Ha Noi8707CLASSIC63040E47")
+                    .sortOrder(1).build());
             wedding.getGiftAccounts().add(GiftAccount.builder()
-                    .wedding(wedding).accountHolder("Xuân Yên").bankName("Vietcombank")
-                    .accountNumber("0000000000").side("GROOM").sortOrder(2).build());
+                    .wedding(wedding).accountHolder("DO XUAN YEN").bankName("TPBank")
+                    .accountNumber("3719 1472 484").side("GROOM")
+                    .qrPayload("0002010102111531397007040052044600003719147248438530010A000000727012300069704230109doxuanyen0208QRIBFTTA5204513753037045802VN5911DO XUAN YEN6006Ha Noi8707CLASSIC63045EFF")
+                    .sortOrder(2).build());
 
             weddingRepository.save(wedding);
         }

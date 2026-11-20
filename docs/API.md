@@ -10,8 +10,8 @@ Base URL: `http://localhost:8080/api` (dev). Frontend gọi qua `VITE_API_URL`
   `Authorization: Bearer <token>`.
 - `{slug}` là slug của wedding, vd: `thanh-truc-xuan-yen`.
 - `{id}` là id số (BIGINT) của bản ghi.
-- Ngày: `wedding_date` / `event_date` dạng `YYYY-MM-DD` (`2026-01-03`).
-  Giờ: `start_time` / `end_time` dạng `HH:mm` hoặc `HH:mm:ss` (`09:00`).
+- Ngày: `wedding_date` / `event_date` dạng `YYYY-MM-DD` (`2026-12-27`).
+  Giờ: `start_time` / `end_time` dạng `HH:mm` hoặc `HH:mm:ss` (`08:00`).
 - **Số tài khoản hộp quà trả về từ API seed là SỐ MẪU, không phải số thật.**
 
 Mục lục: [Public](#public) · [Auth](#auth) · [Admin — Dashboard](#admin--dashboard) ·
@@ -40,7 +40,7 @@ Lấy toàn bộ thông tin thiệp theo slug (trang thiệp dùng API này làm
   "title": "Thanh Trúc & Xuân Yên",
   "brideName": "Thanh Trúc",
   "groomName": "Xuân Yên",
-  "weddingDate": "2026-01-03",
+  "weddingDate": "2026-12-27",
   "coverImageUrl": "https://picsum.photos/seed/thanh-truc-xuan-yen-cover/1600/900",
   "musicUrl": "https://cdn.example.com/music/wedding-theme.mp3",
   "template": "thiep-cuoi-hien-dai",
@@ -54,18 +54,12 @@ Lấy toàn bộ thông tin thiệp theo slug (trang thiệp dùng API này làm
       "fatherName": "Phạm Văn Đức", "motherName": "Lê Thị Hoa" }
   ],
   "events": [
-    { "id": 1, "name": "Lễ Thành Hôn", "eventDate": "2026-01-03",
-      "startTime": "09:00:00", "endTime": "11:00:00",
-      "venueName": "White Palace Hoàng Văn Thụ",
-      "address": "194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh",
-      "mapUrl": "https://maps.google.com/?q=White+Palace+194+Hoang+Van+Thu+Phu+Nhuan",
-      "description": "Lễ Thành Hôn trong không khí ấm cúng cùng gia đình hai bên." },
-    { "id": 2, "name": "Tiệc Cưới", "eventDate": "2026-01-03",
-      "startTime": "18:00:00", "endTime": "21:00:00",
-      "venueName": "White Palace Hoàng Văn Thụ",
-      "address": "194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh",
-      "mapUrl": "https://maps.google.com/?q=White+Palace+194+Hoang+Van+Thu+Phu+Nhuan",
-      "description": "Tiệc Cưới chiêu đãi bạn bè, đồng nghiệp — ..." }
+    { "id": 1, "name": "Lễ Thành Hôn & Tiệc Cưới", "eventDate": "2026-12-27",
+      "startTime": "08:00:00", "endTime": "10:30:00",
+      "venueName": "Tư gia",
+      "address": "Thạnh Hưng, An Giang",
+      "mapUrl": "https://maps.app.goo.gl/DGPB7o7WHyMbqfGv9?g_st=ifm",
+      "description": "Lễ thành hôn và tiệc cưới được tổ chức tại tư gia — nghi lễ truyền thống cùng hai họ, nối tiếp là tiệc mừng chung vui cùng gia đình và quan khách." }
   ]
 }
 ```
@@ -313,7 +307,7 @@ Danh sách wedding (phân trang).
   "content": [
     { "id": 1, "slug": "thanh-truc-xuan-yen", "title": "Thanh Trúc & Xuân Yên",
       "brideName": "Thanh Trúc", "groomName": "Xuân Yên",
-      "weddingDate": "2026-01-03", "template": "thiep-cuoi-hien-dai", "isPublished": true }
+      "weddingDate": "2026-12-27", "template": "thiep-cuoi-hien-dai", "isPublished": true }
   ],
   "totalElements": 1, "totalPages": 1, "page": 0, "size": 20
 }
@@ -341,7 +335,7 @@ Tạo wedding mới. `slug` phải duy nhất, chỉ gồm chữ thường, số
   "title": "Thanh Trúc & Xuân Yên",
   "brideName": "Thanh Trúc",
   "groomName": "Xuân Yên",
-  "weddingDate": "2026-01-03",
+  "weddingDate": "2026-12-27",
   "coverImageUrl": "https://picsum.photos/seed/thanh-truc-xuan-yen-cover/1600/900",
   "musicUrl": "https://cdn.example.com/music/wedding-theme.mp3",
   "template": "thiep-cuoi-hien-dai",
@@ -435,14 +429,14 @@ Bốn nhóm con của wedding dùng chung một mẫu CRUD, chỉ khác path và
 
 ```json
 {
-  "name": "Tiệc Cưới",
-  "eventDate": "2026-01-03",
-  "startTime": "18:00",
-  "endTime": "21:00",
-  "venueName": "White Palace Hoàng Văn Thụ",
-  "address": "194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh",
-  "mapUrl": "https://maps.google.com/?q=White+Palace+194+Hoang+Van+Thu+Phu+Nhuan",
-  "description": "Tiệc Cưới chiêu đãi bạn bè, đồng nghiệp."
+  "name": "Lễ Thành Hôn & Tiệc Cưới",
+  "eventDate": "2026-12-27",
+  "startTime": "08:00",
+  "endTime": "10:30",
+  "venueName": "Tư gia",
+  "address": "Thạnh Hưng, An Giang",
+  "mapUrl": "https://maps.app.goo.gl/DGPB7o7WHyMbqfGv9?g_st=ifm",
+  "description": "Lễ thành hôn và tiệc cưới được tổ chức tại tư gia."
 }
 ```
 

@@ -8,9 +8,7 @@ import Countdown from '../components/Countdown'
 import CalendarMonth from '../components/CalendarMonth'
 import Invitation from '../components/Invitation'
 import Timeline from '../components/Timeline'
-import DressCode from '../components/DressCode'
 import AlbumGallery from '../components/AlbumGallery'
-import MapSection from '../components/MapSection'
 import GiftBox from '../components/GiftBox'
 import RsvpForm from '../components/RsvpForm'
 import WishBook from '../components/WishBook'
@@ -93,17 +91,15 @@ export default function InvitationPage() {
               <h1 className="mt-3 font-display text-4xl font-semibold leading-tight text-brown-dark md:text-6xl">
                 Thanh Trúc <span className="font-hand text-gold">&amp;</span> Xuân Yên
               </h1>
-              <p className="mt-4 text-sm tracking-[0.3em] text-brown/70">THỨ BẢY · 03 . 01 . 2026</p>
-              <p className="mt-2 text-sm text-brown/70">{wedding.venueName} — {wedding.venueAddress}</p>
-              <p className="mt-1 text-sm text-brown/70">Lễ Thành Hôn {wedding.ceremonyTime || '09:00'} · Tiệc Cưới {wedding.receptionTime || '18:00'}</p>
+              <p className="mt-4 text-sm tracking-[0.3em] text-brown/70">CHỦ NHẬT · 27 . 12 . 2026</p>
+              <p className="mt-2 text-sm text-brown/70">{wedding.venueName}</p>
+              <p className="mt-1 text-sm text-brown/70">Lễ Thành Hôn &amp; Tiệc Cưới {wedding.ceremonyTime || '08:00'} · Đón khách từ 07:30</p>
             </section>
-            <Countdown targetDate={`${wedding.weddingDate}T09:00:00`} />
+            <Countdown targetDate={`${wedding.weddingDate}T${wedding.ceremonyTime || '08:00'}:00`} />
             <CalendarMonth />
             <Invitation wedding={wedding} events={events} />
             <Timeline items={timeline} />
-            <DressCode />
             <AlbumGallery photos={album} />
-            <MapSection venueName={wedding.venueName} venueAddress={wedding.venueAddress} />
             <GiftBox accounts={gifts} />
             <RsvpForm slug={slug} />
             <WishBook slug={slug} wishes={wishes} onSent={loadWishes} />

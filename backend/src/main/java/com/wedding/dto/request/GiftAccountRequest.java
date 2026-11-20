@@ -28,6 +28,9 @@ public class GiftAccountRequest {
     @Size(max = 500)
     private String qrCodeUrl;
 
+    @Size(max = 500)
+    private String qrPayload;
+
     @Size(max = 20)
     private String side;
 

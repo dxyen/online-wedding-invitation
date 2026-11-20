@@ -18,7 +18,7 @@ export default function AdminDashboard() {
   return (
     <div>
       <h1 className="font-display text-3xl font-semibold text-brown-dark">Tổng quan</h1>
-      <p className="mt-1 text-sm text-brown/70">Thiệp cưới Thanh Trúc &amp; Xuân Yên — 03/01/2026</p>
+      <p className="mt-1 text-sm text-brown/70">Thiệp cưới Thanh Trúc &amp; Xuân Yên — 27/12/2026</p>
       {error && <p className="mt-4 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{error}</p>}
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Tổng khách mời" value={stats?.totalGuests ?? 0} />

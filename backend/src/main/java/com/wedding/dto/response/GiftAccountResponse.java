@@ -17,6 +17,7 @@ public class GiftAccountResponse {
     private String accountNumber;
     private String branch;
     private String qrCodeUrl;
+    private String qrPayload;
     private String side;
     private int sortOrder;
 }

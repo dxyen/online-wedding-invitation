@@ -38,6 +38,10 @@ public class GiftAccount {
     @Column(length = 500)
     private String qrCodeUrl;
 
+    /** Chuỗi payload VietQR (EMVCo) — frontend vẽ mã QR từ chuỗi này. */
+    @Column(length = 500)
+    private String qrPayload;
+
     /** BRIDE or GROOM */
     @Column(length = 20)
     private String side;

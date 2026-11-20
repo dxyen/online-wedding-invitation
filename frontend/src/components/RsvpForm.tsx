@@ -32,7 +32,7 @@ export default function RsvpForm({ slug }: { slug: string }) {
 
   return (
     <section id="rsvp" className="mx-auto max-w-2xl px-4 py-12">
-      <SectionHeading eyebrow="RSVP" title="Xác Nhận Tham Dự" subtitle="Vui lòng xác nhận trước ngày 20/12/2025 để chúng tôi chuẩn bị đón tiếp chu đáo nhất." />
+      <SectionHeading eyebrow="RSVP" title="Xác Nhận Tham Dự" subtitle="Vui lòng xác nhận trước ngày 20/12/2026 để chúng tôi chuẩn bị đón tiếp chu đáo nhất." />
       <div ref={ref} className="fade-in-section card">
         <form onSubmit={submit} className="space-y-4">
           <div><label className="label" htmlFor="rsvp-name">Họ và tên *</label><input id="rsvp-name" className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ví dụ: Nguyễn Văn A" /></div>

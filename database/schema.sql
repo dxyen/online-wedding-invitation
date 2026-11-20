@@ -15,7 +15,7 @@
 -- Cách chạy:
 --   mysql -h 127.0.0.1 -P 3306 -u wedding -p wedding_db < database/schema.sql
 --
--- Seed demo (Thanh Trúc & Xuân Yên, 03/01/2026) nằm ở database/seed.sql,
+-- Seed demo (Thanh Trúc & Xuân Yên, 27/12/2026) nằm ở database/seed.sql,
 -- chạy SAU file này. Tài khoản admin dev KHÔNG nằm trong schema/seed SQL:
 -- admin@wedding.local / Admin@123 do backend DataSeeder tạo lúc chạy
 -- (password hash BCrypt chỉ được tạo bằng code, không ghi hash giả vào SQL).
@@ -58,11 +58,11 @@ CREATE TABLE IF NOT EXISTS weddings (
   id               BIGINT       NOT NULL AUTO_INCREMENT,
   slug             VARCHAR(200) NOT NULL COMMENT 'Duy nhất, dùng trong URL public, vd: thanh-truc-xuan-yen',
   title            VARCHAR(255) NOT NULL COMMENT 'Vd: Thanh Trúc & Xuân Yên',
-  wedding_date     DATE         NOT NULL COMMENT 'Ngày cưới, vd: 2026-01-03',
-  ceremony_time    TIME         NULL COMMENT 'Giờ Lễ Thành Hôn, vd: 09:00:00',
-  reception_time   TIME         NULL COMMENT 'Giờ Tiệc Cưới, vd: 18:00:00',
-  venue_name       VARCHAR(255) NULL COMMENT 'Vd: White Palace Hoàng Văn Thụ',
-  venue_address    VARCHAR(500) NULL COMMENT 'Vd: 194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh',
+  wedding_date     DATE         NOT NULL COMMENT 'Ngày cưới, vd: 2026-12-27',
+  ceremony_time    TIME         NULL COMMENT 'Giờ Lễ Thành Hôn, vd: 08:00:00',
+  reception_time   TIME         NULL COMMENT 'Giờ Tiệc Cưới, vd: 08:00:00',
+  venue_name       VARCHAR(255) NULL COMMENT 'Vd: Tư gia',
+  venue_address    VARCHAR(500) NULL COMMENT 'Vd: Thạnh Hưng, An Giang',
   music_url        VARCHAR(500) NULL COMMENT 'Nhạc nền thiệp (mp3)',
   template         VARCHAR(100) NOT NULL DEFAULT 'thiep-cuoi-hien-dai' COMMENT 'Mã template hiển thị, vd: thiep-cuoi-hien-dai',
   greeting_message TEXT         NULL COMMENT 'Lời chào / lời mời trên thiệp',
@@ -113,10 +113,10 @@ CREATE TABLE IF NOT EXISTS wedding_events (
   title       VARCHAR(200) NOT NULL COMMENT 'Vd: Lễ Thành Hôn, Tiệc Cưới',
   event_type  VARCHAR(50)  NULL COMMENT 'CEREMONY | RECEPTION',
   event_date  DATE         NOT NULL,
-  start_time  TIME         NULL COMMENT 'Vd: 09:00:00',
+  start_time  TIME         NULL COMMENT 'Vd: 08:00:00',
   end_time    TIME         NULL,
-  location    VARCHAR(255) NULL COMMENT 'Vd: White Palace Hoàng Văn Thụ',
-  address     VARCHAR(500) NULL COMMENT 'Vd: 194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh',
+  location    VARCHAR(255) NULL COMMENT 'Vd: Tư gia',
+  address     VARCHAR(500) NULL COMMENT 'Vd: Thạnh Hưng, An Giang',
   description TEXT         NULL,
   sort_order  INT          NOT NULL DEFAULT 0,
   created_at  TIMESTAMP    NULL,
@@ -258,10 +258,11 @@ CREATE TABLE IF NOT EXISTS gift_accounts (
   id             BIGINT       NOT NULL AUTO_INCREMENT,
   wedding_id     BIGINT       NOT NULL,
   account_holder VARCHAR(150) NOT NULL COMMENT 'Tên chủ tài khoản',
-  bank_name      VARCHAR(100) NOT NULL COMMENT 'Vd: Vietcombank, Techcombank',
+  bank_name      VARCHAR(100) NOT NULL COMMENT 'Vd: TPBank',
   account_number VARCHAR(50)  NOT NULL,
   branch         VARCHAR(150) NULL COMMENT 'Chi nhánh ngân hàng',
   qr_code_url    VARCHAR(500) NULL COMMENT 'Ảnh QR chuyển khoản',
+  qr_payload     VARCHAR(500) NULL COMMENT 'Chuỗi payload VietQR — frontend vẽ mã QR từ chuỗi này',
   side           VARCHAR(20)  NULL COMMENT 'BRIDE = cô dâu, GROOM = chú rể',
   sort_order     INT          NOT NULL DEFAULT 0,
   created_at     TIMESTAMP    NULL,
@@ -274,4 +275,4 @@ CREATE TABLE IF NOT EXISTS gift_accounts (
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_unicode_ci
-  COMMENT = 'Tài khoản nhận quà mừng (số trong seed là số mẫu)';
+  COMMENT = 'Tài khoản nhận quà mừng (số thật TPBank)';

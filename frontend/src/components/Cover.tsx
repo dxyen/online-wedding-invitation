@@ -11,10 +11,10 @@ export default function Cover({ wedding, onOpen }: { wedding: Wedding; onOpen: (
       <h1 className="animate-fade-up mt-8 font-display text-4xl font-semibold leading-tight text-brown-dark md:text-6xl">
         Thanh Trúc <span className="font-hand text-gold">&amp;</span> Xuân Yên
       </h1>
-      <p className="mt-4 text-sm tracking-[0.3em] text-brown/70">03 . 01 . 2026</p>
-      <p className="mt-2 text-sm text-brown/70">{wedding.venueName} — {wedding.venueAddress}</p>
+      <p className="mt-4 text-sm tracking-[0.3em] text-brown/70">27 . 12 . 2026</p>
+      <p className="mt-2 text-sm text-brown/70">{wedding.venueName}</p>
       <button type="button" onClick={onOpen} className="btn-gold animate-float-slow mt-10">
-        ✉ Mở Thiệp
+        Mở Thiệp
       </button>
       <p className="mt-4 text-xs text-brown/50">Nhấn “Mở Thiệp” để xem toàn bộ nội dung</p>
     </section>

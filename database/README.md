@@ -5,7 +5,7 @@ MySQL 8.0, database `wedding_db`, charset `utf8mb4` (tiếng Việt có dấu, e
 | File | Nội dung |
 | --- | --- |
 | `schema.sql` | Tạo database + 10 bảng: `users`, `weddings`, `couples`, `wedding_events`, `timeline_items`, `album_photos`, `guests`, `rsvps`, `wishes`, `gift_accounts`. Chạy 1 lần, an toàn chạy lại (`IF NOT EXISTS`). |
-| `seed.sql` | Dữ liệu demo: Thanh Trúc & Xuân Yên, slug `thanh-truc-xuan-yen`, cưới 03/01/2026. Chạy sau schema, chạy lại được (xóa + chèn lại dữ liệu của wedding này). |
+| `seed.sql` | Dữ liệu demo: Thanh Trúc & Xuân Yên, slug `thanh-truc-xuan-yen`, cưới 27/12/2026. Chạy sau schema, chạy lại được (xóa + chèn lại dữ liệu của wedding này). |
 
 > ⚠ **Số tài khoản hộp quà trong seed là SỐ MẪU** (vd: `1903123456`), không phải số thật. Đổi sang số thật qua trang Admin trước khi gửi thiệp cho khách.
 >

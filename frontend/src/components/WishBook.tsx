@@ -4,6 +4,12 @@ import { getErrorMessage, publicApi } from '../lib/api'
 import type { Wish } from '../lib/types'
 import SectionHeading from './SectionHeading'
 
+function formatWishDate(raw?: string): string {
+  if (!raw) return ''
+  const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})/)
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : raw
+}
+
 export default function WishBook({ slug, wishes, onSent }: { slug: string; wishes: Wish[]; onSent?: () => void }) {
   const ref = useInView<HTMLDivElement>()
   const [name, setName] = useState('')
@@ -41,9 +47,9 @@ export default function WishBook({ slug, wishes, onSent }: { slug: string; wishe
         <div className="mt-8 space-y-4">
           {wishes.map((w, i) => (
             <article key={w.id ?? i} className="card">
-              <p className="font-display text-lg font-semibold text-brown-dark">{w.guestName}</p>
+              <p className="font-display text-lg font-semibold text-brown-dark">{w.guestName || w.senderName}</p>
               <p className="mt-1 text-sm leading-relaxed text-brown/80">“{w.message}”</p>
-              {w.createdAt && <p className="mt-2 text-xs text-brown/50">{w.createdAt}</p>}
+              {w.createdAt && <p className="mt-2 text-xs text-brown/50">{formatWishDate(w.createdAt)}</p>}
             </article>
           ))}
           {wishes.length === 0 && <p className="text-center text-sm text-brown/70">Chưa có lời chúc nào được duyệt. Hãy là người đầu tiên gửi lời chúc nhé!</p>}

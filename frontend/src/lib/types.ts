@@ -12,11 +12,18 @@ export interface Couple {
 export interface WeddingEvent {
   id?: number | string
   title: string
-  time: string
+  time?: string
   date?: string
   description?: string
   venueName?: string
   venueAddress?: string
+  // API shape (WeddingEventResponse): startTime/eventDate/location/address
+  startTime?: string
+  endTime?: string
+  eventDate?: string
+  eventType?: string
+  location?: string
+  address?: string
 }
 
 export interface Wedding {
@@ -30,7 +37,6 @@ export interface Wedding {
   venueAddress: string
   ceremonyTime?: string
   receptionTime?: string
-  dressCode?: string
   invitationText?: string
   couple?: Couple
   events?: WeddingEvent[]
@@ -56,6 +62,8 @@ export interface AlbumPhoto {
 export interface Wish {
   id?: number | string
   guestName: string
+  // API shape (WishResponse) dùng senderName thay cho guestName
+  senderName?: string
   message: string
   approved?: boolean
   status?: string
@@ -69,7 +77,12 @@ export interface GiftAccount {
   accountNumber: string
   accountHolder: string
   role: 'GROOM' | 'BRIDE' | string
+  // API shape (GiftAccountResponse) dùng side thay cho role
+  side?: string
   qrCodeUrl?: string
+  // Chuỗi payload VietQR (EMVCo) — frontend vẽ mã QR từ chuỗi này,
+  // không cần file ảnh nhị phân.
+  qrPayload?: string
 }
 
 export interface RsvpRequest {

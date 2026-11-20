@@ -75,7 +75,8 @@ public class WeddingMapperImpl implements WeddingMapper {
                 .id(account.getId()).weddingId(account.getWedding() != null ? account.getWedding().getId() : null)
                 .accountHolder(account.getAccountHolder()).bankName(account.getBankName())
                 .accountNumber(account.getAccountNumber()).branch(account.getBranch())
-                .qrCodeUrl(account.getQrCodeUrl()).side(account.getSide()).sortOrder(account.getSortOrder())
+                .qrCodeUrl(account.getQrCodeUrl()).qrPayload(account.getQrPayload())
+                .side(account.getSide()).sortOrder(account.getSortOrder())
                 .build();
     }
 }

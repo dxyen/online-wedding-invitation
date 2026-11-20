@@ -58,11 +58,11 @@ Tên cô dâu/chú rể nằm ở bảng `couples` (quan hệ 1-1), không nằm
 | `id` | BIGINT | PK, AUTO_INCREMENT | |
 | `slug` | VARCHAR(200) | NOT NULL, UNIQUE | Định danh URL, vd: `thanh-truc-xuan-yen` |
 | `title` | VARCHAR(255) | NOT NULL | Vd: `Thanh Trúc & Xuân Yên` |
-| `wedding_date` | DATE | NOT NULL | Vd: `2026-01-03` |
-| `ceremony_time` | TIME | NULL | Giờ Lễ Thành Hôn, vd: `09:00:00` |
-| `reception_time` | TIME | NULL | Giờ Tiệc Cưới, vd: `18:00:00` |
-| `venue_name` | VARCHAR(255) | NULL | Vd: `White Palace Hoàng Văn Thụ` |
-| `venue_address` | VARCHAR(500) | NULL | Vd: `194 Hoàng Văn Thụ, Phú Nhuận, TP. Hồ Chí Minh` |
+| `wedding_date` | DATE | NOT NULL | Vd: `2026-12-27` |
+| `ceremony_time` | TIME | NULL | Giờ Lễ Thành Hôn, vd: `08:00:00` |
+| `reception_time` | TIME | NULL | Giờ Tiệc Cưới, vd: `08:00:00` |
+| `venue_name` | VARCHAR(255) | NULL | Vd: `Tư gia` |
+| `venue_address` | VARCHAR(500) | NULL | Vd: `Thạnh Hưng, An Giang` |
 | `music_url` | VARCHAR(500) | NULL | Nhạc nền (mp3) |
 | `template` | VARCHAR(100) | NOT NULL, DEFAULT `'thiep-cuoi-hien-dai'` | Mã template hiển thị |
 | `greeting_message` | TEXT | NULL | Lời chào / lời mời trên thiệp |
@@ -99,11 +99,11 @@ ràng buộc bằng `UNIQUE (wedding_id)`.
 | `wedding_id` | BIGINT | NOT NULL, FK → `weddings(id)` CASCADE | |
 | `title` | VARCHAR(200) | NOT NULL | Vd: `Lễ Thành Hôn`, `Tiệc Cưới` |
 | `event_type` | VARCHAR(50) | NULL | `CEREMONY` / `RECEPTION` |
-| `event_date` | DATE | NOT NULL | Vd: `2026-01-03` |
-| `start_time` | TIME | NULL | Vd: `09:00:00` |
+| `event_date` | DATE | NOT NULL | Vd: `2026-12-27` |
+| `start_time` | TIME | NULL | Vd: `08:00:00` |
 | `end_time` | TIME | NULL | Vd: `11:00:00` |
-| `location` | VARCHAR(255) | NULL | Vd: `White Palace Hoàng Văn Thụ` |
-| `address` | VARCHAR(500) | NULL | Vd: `194 Hoàng Văn Thụ, Phú Nhuận` |
+| `location` | VARCHAR(255) | NULL | Vd: `Tư gia` |
+| `address` | VARCHAR(500) | NULL | Vd: `Thạnh Hưng, An Giang` |
 | `description` | TEXT | NULL | |
 | `sort_order` | INT | NOT NULL, DEFAULT 0 | |
 | `created_at` | TIMESTAMP | NULL | |
@@ -260,9 +260,9 @@ Seed demo cho wedding `thanh-truc-xuan-yen` (chạy lại được):
 
 | Bảng | Số dòng | Nội dung |
 | --- | --- | --- |
-| `weddings` | 1 | Thanh Trúc & Xuân Yên, `2026-01-03`, Lễ 09:00, Tiệc 18:00, White Palace Hoàng Văn Thụ, template `thiep-cuoi-hien-dai` |
+| `weddings` | 1 | Thanh Trúc & Xuân Yên, `2026-12-27`, Lễ & Tiệc gộp chung 08:00, Tư gia, template `thiep-cuoi-hien-dai` |
 | `couples` | 1 | Thanh Trúc & Xuân Yên, monogram `T ♥ Y`, display `Thanh Trúc & Xuân Yên` |
-| `wedding_events` | 2 | Lễ Thành Hôn 09:00–11:00 (CEREMONY), Tiệc Cưới 18:00–21:00 (RECEPTION), White Palace Hoàng Văn Thụ, 194 Hoàng Văn Thụ, Phú Nhuận |
+| `wedding_events` | 1 | Lễ Thành Hôn & Tiệc Cưới 08:00–10:30 (CEREMONY), Tư gia, Thạnh Hưng, An Giang |
 | `timeline_items` | 4 | Gặp nhau 14/02/2019, tỏ tình 20/06/2021, cầu hôn 24/12/2024, ăn hỏi 15/11/2025 |
 | `album_photos` | 6 | Ảnh placeholder `picsum.photos/seed/thanh-truc-xuan-yen-N/800/600` |
 | `gift_accounts` | 3 | Vietcombank + MB Bank (cô dâu), Techcombank (chú rể) — **SỐ MẪU** |
