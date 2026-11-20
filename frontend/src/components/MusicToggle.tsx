@@ -5,7 +5,7 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useSta
 // Phát bằng thẻ <audio> có sẵn của trình duyệt, không dùng WebAudio.
 export const MUSIC_START_SECONDS = 16
 const MUSIC_SRC = '/audio/em-dong-y-i-do.mp3'
-const SONG_LABEL = 'Em Đồng Ý (I Do) — Đức Phúc × 911'
+const SONG_LABEL = 'Em Đồng Ý (I Do)';
 
 export interface MusicToggleHandle {
   /** Bắt đầu phát từ giây 16. Gọi trong cử chỉ người dùng (bấm "Mở Thiệp") để trình duyệt cho phép phát. */
