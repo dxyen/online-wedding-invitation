@@ -37,7 +37,10 @@ public class JwtTokenProvider {
         byte[] bytes;
         try {
             bytes = Decoders.BASE64.decode(secret);
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
+            // JJWT throws io.jsonwebtoken.io.DecodingException (a JwtException,
+            // NOT an IllegalArgumentException) for illegal base64 chars such as
+            // '-' in a plain-phrase secret, so catch RuntimeException here.
             bytes = secret.getBytes(StandardCharsets.UTF_8);
         }
         if (bytes.length < 32) {
