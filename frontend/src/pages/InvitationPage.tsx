@@ -85,13 +85,20 @@ export default function InvitationPage() {
           )}
           <main>
             <section className="hero">
-              <p className="hero-save">Save the Date</p>
+              <p className="hero-save">SAVE THE DATE</p>
               <h1 className="hero-names">
-                {wedding.brideName} &amp; {wedding.groomName}
+                {wedding.brideName}
+                <br />
+                &amp; {wedding.groomName}
               </h1>
+              <div className="hero-divider" aria-hidden="true">
+                <span className="line" />
+                <span className="orn">❦</span>
+                <span className="line" />
+              </div>
               <div className="hero-date">
-                <span className="hero-day">27</span>
                 <span className="hero-side">Chủ Nhật<br />08:00</span>
+                <span className="hero-day">27</span>
                 <span className="hero-side">Tháng 12<br />2026</span>
               </div>
               <div className="wood-frame">
