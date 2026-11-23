@@ -270,7 +270,7 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
 @media (max-width: 420px) { .hero-names { font-size: 48px; } }
 .hero-divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 20px auto 0; color: var(--tan); }
 .hero-divider .line { width: 72px; height: 1px; background: var(--tan); }
-.hero-divider .orn { font-size: 13px; line-height: 1; }
+.hero-divider .orn { display: block; flex-shrink: 0; }
 .hero-date { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
 .hero-day { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 600; color: var(--brown-dark); line-height: 1; }
 .hero-side { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brown); border-top: 1px solid var(--tan); border-bottom: 1px solid var(--tan); padding: 5px 2px; line-height: 1.7; }
