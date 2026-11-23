@@ -14,7 +14,18 @@ api.interceptors.request.use((config) => {
 })
 
 api.interceptors.response.use(
-  (res) => res,
+  (res) => {
+    // Backend bọc mọi response trong ApiResponse { success, message, data, timestamp }.
+    // Bóc lớp vỏ ở đây để mọi lời gọi `.then((r) => r.data)` bên dưới nhận đúng
+    // payload (mảng/đối tượng thật) thay vì cả envelope — nếu không, các
+    // component `.map(...)` trên object sẽ văng "e.map is not a function" và
+    // trang trắng xóa. Chỉ bóc khi đúng hình envelope để không chạm response lạ.
+    const body = res.data as { success?: boolean; data?: unknown } | null
+    if (body && typeof body === 'object' && 'success' in body && 'data' in body) {
+      res.data = body.data
+    }
+    return res
+  },
   (err) => {
     if (err?.response?.status === 401 && window.location.pathname.startsWith('/admin')) {
       localStorage.removeItem('token')
@@ -34,8 +45,25 @@ export function getErrorMessage(err: unknown, fallback = 'Có lỗi xảy ra, vu
 }
 
 // Public
+// Backend trả WeddingResponse với tên cô dâu/chú rể nằm trong `couple` (không có
+// brideName/groomName phẳng như kiểu Wedding của frontend), và giờ LocalTime dạng
+// "08:00:00" (frontend cần "HH:mm" vì chỗ đếm ngược tự thêm ":00"). Chuẩn hoá ở đây.
+function normalizeTime(t?: string): string | undefined {
+  return t ? t.slice(0, 5) : t
+}
+
+function mapWedding(w: Wedding): Wedding {
+  return {
+    ...w,
+    brideName: w.brideName || w.couple?.brideName || '',
+    groomName: w.groomName || w.couple?.groomName || '',
+    ceremonyTime: normalizeTime(w.ceremonyTime),
+    receptionTime: normalizeTime(w.receptionTime)
+  }
+}
+
 export const publicApi = {
-  getWedding: (slug: string) => api.get<Wedding>(`/public/weddings/${slug}`).then((r) => r.data),
+  getWedding: (slug: string) => api.get<Wedding>(`/public/weddings/${slug}`).then((r) => mapWedding(r.data)),
   getTimeline: (slug: string) => api.get<TimelineItem[]>(`/public/weddings/${slug}/timeline`).then((r) => r.data),
   getAlbum: (slug: string) => api.get<AlbumPhoto[]>(`/public/weddings/${slug}/album`).then((r) => r.data),
   getEvents: (slug: string) => api.get<WeddingEvent[]>(`/public/weddings/${slug}/events`).then((r) => r.data),
