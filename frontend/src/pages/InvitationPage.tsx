@@ -93,10 +93,7 @@ export default function InvitationPage() {
               </h1>
               <div className="hero-divider" aria-hidden="true">
                 <span className="line" />
-                <svg className="orn" width="15" height="15" viewBox="0 0 16 16" fill="none">
-                  <path d="M8 14 C8 14 2.5 10.2 2.5 6.6 C2.5 4.6 4 3.2 5.6 3.2 C6.7 3.2 7.6 3.9 8 4.8 C8.4 3.9 9.3 3.2 10.4 3.2 C12 3.2 13.5 4.6 13.5 6.6 C13.5 10.2 8 14 8 14 Z" fill="currentColor" />
-                  <path d="M8 4.8 C8 3 9.4 1.9 11 2.3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-                </svg>
+                <span className="orn">❦</span>
                 <span className="line" />
               </div>
               <div className="hero-date">
