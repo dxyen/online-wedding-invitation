@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -26,12 +27,14 @@ public class DataSeeder implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final WeddingRepository weddingRepository;
+    private final WishRepository wishRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataSeeder(UserRepository userRepository, WeddingRepository weddingRepository,
-                      PasswordEncoder passwordEncoder) {
+                      WishRepository wishRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.weddingRepository = weddingRepository;
+        this.wishRepository = wishRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -111,6 +114,26 @@ public class DataSeeder implements CommandLineRunner {
                     .sortOrder(2).build());
 
             weddingRepository.save(wedding);
+        }
+
+        // Sổ lưu bút: 3 lời chúc như bản app (cô dâu, chú rể, Phương Thảo).
+        // Chạy riêng khi bảng wishes còn trống nên cũng bổ sung cho DB đã seed
+        // từ trước (khi backend khởi động lại sau khi pull).
+        if (wishRepository.count() == 0) {
+            weddingRepository.findBySlug("thanh-truc-xuan-yen").ifPresent(wedding -> {
+                wishRepository.save(Wish.builder()
+                        .wedding(wedding).senderName("Thanh Trúc")
+                        .message("Cảm ơn anh đã đến bên em và cùng em đi qua bao ngày nắng mưa. Từ hôm nay, em chính thức là vợ anh — cùng nhau xây một mái nhà bình yên, nắm tay nhau đi hết những mùa hoa nhé!")
+                        .approved(true).createdAt(LocalDateTime.of(2025, 10, 21, 10, 0)).build());
+                wishRepository.save(Wish.builder()
+                        .wedding(wedding).senderName("Xuân Yên")
+                        .message("Cảm ơn em đã chọn anh giữa bao người. Anh hứa sẽ yêu thương, chở che em suốt đời — từ hôm nay, chúng ta là một gia đình.")
+                        .approved(true).createdAt(LocalDateTime.of(2025, 10, 21, 9, 0)).build());
+                wishRepository.save(Wish.builder()
+                        .wedding(wedding).senderName("Phương Thảo")
+                        .message("Trúc xinh quá đi! Chúc hai bạn một đời bình an, nắm tay nhau đi hết những mùa hoa.")
+                        .approved(true).createdAt(LocalDateTime.of(2025, 10, 20, 10, 0)).build());
+            });
         }
     }
 }

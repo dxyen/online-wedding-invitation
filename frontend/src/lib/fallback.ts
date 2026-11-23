@@ -65,8 +65,8 @@ export const fallbackAlbum: AlbumPhoto[] = [
 ]
 
 export const fallbackWishes: Wish[] = [
-  { id: 1, guestName: 'Thanh Trúc', message: 'Cảm ơn anh đã đến bên em và cùng em đi qua bao ngày nắng mưa. Từ hôm nay, em chính thức là vợ anh — cùng nhau xây một mái nhà bình yên, nắm tay nhau đi hết những mùa hoa nhé!', approved: true, createdAt: '2026-12-27' },
-  { id: 2, guestName: 'Xuân Yên', message: 'Cảm ơn em đã chọn anh giữa bao người. Anh hứa sẽ yêu thương, chở che em suốt đời — từ hôm nay, chúng ta là một gia đình.', approved: true, createdAt: '2026-12-27' },
+  { id: 1, guestName: 'Thanh Trúc', message: 'Cảm ơn anh đã đến bên em và cùng em đi qua bao ngày nắng mưa. Từ hôm nay, em chính thức là vợ anh — cùng nhau xây một mái nhà bình yên, nắm tay nhau đi hết những mùa hoa nhé!', approved: true, createdAt: '2025-10-21' },
+  { id: 2, guestName: 'Xuân Yên', message: 'Cảm ơn em đã chọn anh giữa bao người. Anh hứa sẽ yêu thương, chở che em suốt đời — từ hôm nay, chúng ta là một gia đình.', approved: true, createdAt: '2025-10-21' },
   { id: 3, guestName: 'Phương Thảo', message: 'Trúc xinh quá đi! Chúc hai bạn một đời bình an, nắm tay nhau đi hết những mùa hoa.', approved: true, createdAt: '2025-10-20' }
 ]
 

@@ -38,8 +38,10 @@ public class Wish {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
+        // Chỉ đặt ngày khi chưa có sẵn — DataSeeder gán ngày gốc của lời chúc
+        // (21/10/2025, 20/10/2025) để khớp bản app; lời chúc gửi từ form vẫn lấy giờ hiện tại.
+        if (createdAt == null) createdAt = LocalDateTime.now();
+        if (updatedAt == null) updatedAt = createdAt;
     }
 
     @PreUpdate

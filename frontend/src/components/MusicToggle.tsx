@@ -91,7 +91,7 @@ const MusicToggle = forwardRef<MusicToggleHandle, { visible?: boolean }>(functio
           className={`music-btn${playing ? ' animate-spin-slow' : ''}`}
           title={`${SONG_LABEL} — ${playing ? 'đang phát, bấm để tạm dừng' : 'bấm để phát'}`}
         >
-          {playing ? '♪' : '♫'}
+          {playing ? '♫' : '♪'}
         </button>
       </div>
     </>

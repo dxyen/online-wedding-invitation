@@ -21,7 +21,7 @@ export default function WishBook({ slug, wishes, onSent }: { slug: string; wishe
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(''); setSuccess('')
-    if (!name.trim() || !message.trim()) { setError('Vui lòng nhập tên và lời chúc của bạn.'); return }
+    if (!name.trim() || !message.trim()) { setError('Bạn vui lòng điền tên và lời chúc nhé.'); return }
     setLoading(true)
     try {
       await publicApi.sendWish(slug, { guestName: name.trim(), message: message.trim() })
@@ -35,12 +35,24 @@ export default function WishBook({ slug, wishes, onSent }: { slug: string; wishe
 
   return (
     <section id="wishes" className="inv-section">
-      <SectionHeading eyebrow="Sổ Lưu Bút" title="Gửi Lời Chúc" subtitle="Mỗi lời chúc của bạn là một món quà tinh thần dành cho Thanh Trúc & Xuân Yên." />
+      <SectionHeading eyebrow="Sổ Lưu Bút" title="Lời Chúc Từ Bạn Bè" script />
       <div ref={ref} className="fade-in-section">
+        <div className="wishes">
+          {wishes.map((w, i) => (
+            <article key={w.id ?? i} className="wish">
+              <div className="wish-who">
+                <b>{w.guestName || w.senderName}</b>
+                {w.createdAt && <time>{formatWishDate(w.createdAt)}</time>}
+              </div>
+              <p>“{w.message}”</p>
+            </article>
+          ))}
+          {wishes.length === 0 && <p className="count-note">Chưa có lời chúc nào được duyệt. Hãy là người đầu tiên gửi lời chúc nhé!</p>}
+        </div>
         <form onSubmit={submit} className="inv-form">
           <div>
             <label className="inv-label" htmlFor="wish-name">Tên của bạn *</label>
-            <input id="wish-name" className="inv-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Tên của bạn" />
+            <input id="wish-name" className="inv-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ví dụ: Khánh Linh" />
           </div>
           <div>
             <label className="inv-label" htmlFor="wish-msg">Lời chúc *</label>
@@ -55,18 +67,6 @@ export default function WishBook({ slug, wishes, onSent }: { slug: string; wishe
           )}
           <button type="submit" disabled={loading} className="inv-btn inv-btn-block">{loading ? 'Đang gửi…' : 'Gửi Lời Chúc'}</button>
         </form>
-        <div className="wishes">
-          {wishes.map((w, i) => (
-            <article key={w.id ?? i} className="wish">
-              <div className="wish-who">
-                <b>{w.guestName || w.senderName}</b>
-                {w.createdAt && <time>{formatWishDate(w.createdAt)}</time>}
-              </div>
-              <p>“{w.message}”</p>
-            </article>
-          ))}
-          {wishes.length === 0 && <p className="count-note">Chưa có lời chúc nào được duyệt. Hãy là người đầu tiên gửi lời chúc nhé!</p>}
-        </div>
       </div>
     </section>
   )

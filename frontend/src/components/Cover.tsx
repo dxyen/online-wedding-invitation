@@ -1,7 +1,7 @@
 import type { Wedding } from '../lib/types'
 import { handleImgError } from '../lib/fallback'
 
-// 14 cánh hoa rơi trên bìa (artifact #cover).
+// 14 cánh hoa rơi trên bìa (artifact #cover): rơi 7–14s, delay 0–6s.
 const PETALS = [
   { left: 4, dur: 9, delay: 0 },
   { left: 12, dur: 12, delay: 1.5 },
@@ -15,8 +15,8 @@ const PETALS = [
   { left: 74, dur: 12.5, delay: 0.8 },
   { left: 82, dur: 10.5, delay: 3.5 },
   { left: 88, dur: 13.5, delay: 1.2 },
-  { left: 94, dur: 9, delay: 4.5 },
-  { left: 97, dur: 11.5, delay: 2.2 }
+  { left: 94, dur: 7, delay: 4.5 },
+  { left: 97, dur: 11.5, delay: 6 }
 ]
 
 export default function Cover({ wedding, coverPhoto, onOpen }: { wedding: Wedding; coverPhoto?: string; onOpen: () => void }) {
@@ -32,6 +32,7 @@ export default function Cover({ wedding, coverPhoto, onOpen }: { wedding: Weddin
       ))}
       <div className="cover-card">
         <p className="kicker">Thiệp Mời Cưới</p>
+        <p className="cover-orn" aria-hidden="true">❦</p>
         <h1 className="cover-names">
           {wedding.brideName} <span className="amp">&amp;</span> {wedding.groomName}
         </h1>
@@ -42,9 +43,9 @@ export default function Cover({ wedding, coverPhoto, onOpen }: { wedding: Weddin
           ) : null}
         </div>
         <div className="cover-guest">
-          <p className="lbl">Trân trọng kính mời</p>
+          <p className="lbl">Thân Mời</p>
           <p className="name">Quý khách</p>
-          <p>Đến dự lễ cưới của chúng tôi</p>
+          <p>Đến dự buổi tiệc chung vui cùng gia đình</p>
         </div>
         <button type="button" onClick={onOpen} className="inv-btn cover-btn">
           Mở Thiệp

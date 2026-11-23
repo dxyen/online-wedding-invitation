@@ -80,11 +80,11 @@ function MainGift() {
           <stop offset="100%" stopColor="#f6e7d0" />
         </linearGradient>
       </defs>
-      {/* Nơ */}
-      <ellipse cx="80" cy="50" rx="20" ry="12" fill="#b97f36" transform="rotate(-25 80 50)" />
-      <ellipse cx="120" cy="50" rx="20" ry="12" fill="#b97f36" transform="rotate(25 120 50)" />
-      <path d="M100 58 L88 78 L100 72 Z" fill="#b97f36" />
-      <path d="M100 58 L112 78 L100 72 Z" fill="#b97f36" />
+      {/* Nơ — vòng nơ #d99a4e, nút giữa giữ #b97f36 (như bản artifact) */}
+      <ellipse cx="80" cy="50" rx="20" ry="12" fill="#d99a4e" transform="rotate(-25 80 50)" />
+      <ellipse cx="120" cy="50" rx="20" ry="12" fill="#d99a4e" transform="rotate(25 120 50)" />
+      <path d="M100 58 L88 78 L100 72 Z" fill="#d99a4e" />
+      <path d="M100 58 L112 78 L100 72 Z" fill="#d99a4e" />
       <circle cx="100" cy="58" r="9" fill="#b97f36" />
       {/* Nắp + thân hộp */}
       <rect x="30" y="64" width="140" height="30" rx="6" fill="#f1dfc0" />
@@ -105,6 +105,7 @@ function QrCard({ account }: { account: GiftAccount }) {
   const [enlarged, setEnlarged] = useState(false)
   const role = account.role || account.side || ''
   const owner = account.ownerName || account.accountHolder
+  const displayName = role === 'BRIDE' ? 'Thanh Trúc' : 'Xuân Yên'
   const plainNumber = account.accountNumber.replace(/\s/g, '')
 
   useEffect(() => {
@@ -125,13 +126,13 @@ function QrCard({ account }: { account: GiftAccount }) {
     if (!qrUrl) return
     const a = document.createElement('a')
     a.href = qrUrl
-    a.download = `qr-${role.toLowerCase() || 'thiep-cuoi'}.png`
+    a.download = role === 'BRIDE' ? 'qr-mung-cuoi-co-dau.png' : 'qr-mung-cuoi-chu-re.png'
     a.click()
   }
 
   return (
     <div className="gift-card">
-      <p className="g-who">{role === 'BRIDE' ? 'Cô Dâu' : 'Chú Rể'} · {owner}</p>
+      <p className="g-who">{role === 'BRIDE' ? 'Cô Dâu' : 'Chú Rể'} · {displayName}</p>
       <div className="g-qr">
         {qrUrl ? (
           <button type="button" onClick={() => setEnlarged(true)} className="block h-full w-full" title="Chạm để xem lớn">
@@ -147,13 +148,14 @@ function QrCard({ account }: { account: GiftAccount }) {
         {account.accountHolder}
       </p>
       <div className="mt-3 flex justify-center gap-2">
-        <button type="button" onClick={copy} className="mini-btn">{copied ? 'Đã chép ✓' : 'Chép STK'}</button>
         <button type="button" onClick={download} disabled={!qrUrl} className="mini-btn">Lưu QR</button>
+        <button type="button" onClick={copy} className="mini-btn">{copied ? 'Đã chép ✓' : 'Chép STK'}</button>
       </div>
       {enlarged && qrUrl && (
         <div className="qr-zoom" onClick={() => setEnlarged(false)} role="dialog" aria-label="Mã QR lớn">
           <img src={qrUrl} alt={`Mã QR chuyển khoản ${owner}`} />
           <p>{account.bankName} · {account.accountNumber}<br />{account.accountHolder}</p>
+          <button type="button" className="qr-zoom-btn" onClick={() => setEnlarged(false)}>Đóng</button>
         </div>
       )}
     </div>
@@ -163,6 +165,15 @@ function QrCard({ account }: { account: GiftAccount }) {
 export default function GiftBox({ accounts }: { accounts: GiftAccount[] }) {
   const ref = useInView<HTMLDivElement>()
   const [open, setOpen] = useState(false)
+
+  // Modal hộp quà: đóng bằng phím Esc (như bản artifact).
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
   // Cô dâu trước, chú rể sau — như trên thiệp.
   const ordered = [...accounts].sort((a, b) => {
     const rank = (r?: string) => (r === 'BRIDE' ? 0 : 1)
@@ -170,7 +181,7 @@ export default function GiftBox({ accounts }: { accounts: GiftAccount[] }) {
   })
   return (
     <section className="inv-section">
-      <SectionHeading eyebrow="Mừng Cưới" title="HỘP QUÀ MỪNG" uppercase subtitle="Sự hiện diện của bạn đã là món quà quý giá nhất. Nếu muốn gửi quà mừng, bạn có thể quét mã QR dưới đây." />
+      <SectionHeading eyebrow="Mừng Cưới Online" title="HỘP QUÀ MỪNG" uppercase />
       <div ref={ref} className="fade-in-section">
         <div className="gift-stage" onClick={() => setOpen(true)} role="button" aria-label="Mở hộp quà mừng" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setOpen(true) }}>
           <div className="gift-shadow" aria-hidden="true" />
@@ -221,6 +232,7 @@ export default function GiftBox({ accounts }: { accounts: GiftAccount[] }) {
                 <p className="text-center text-sm text-brown/70">Chưa có thông tin tài khoản.</p>
               )}
             </div>
+            <p className="gift-modal-note">Chạm vào mã QR để xem lớn cho dễ quét</p>
           </div>
         </div>
       )}
