@@ -1,12 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { publicApi } from '../lib/api'
-import { fallbackAlbum, fallbackEvents, fallbackGiftAccounts, fallbackTimeline, fallbackWedding, fallbackWishes } from '../lib/fallback'
-import type { AlbumPhoto, GiftAccount, TimelineItem, Wedding, WeddingEvent, Wish } from '../lib/types'
+import { fallbackAlbum, fallbackEvents, fallbackGiftAccounts, fallbackWedding, fallbackWishes } from '../lib/fallback'
+import type { AlbumPhoto, GiftAccount, Wedding, WeddingEvent, Wish } from '../lib/types'
 import Cover from '../components/Cover'
 import Countdown from '../components/Countdown'
 import Invitation from '../components/Invitation'
-import Timeline from '../components/Timeline'
 import AlbumGallery from '../components/AlbumGallery'
 import GiftBox from '../components/GiftBox'
 import RsvpForm from '../components/RsvpForm'
@@ -21,7 +20,6 @@ export default function InvitationPage() {
   const [loading, setLoading] = useState(true)
   const [isFallback, setIsFallback] = useState(false)
   const [wedding, setWedding] = useState<Wedding>(fallbackWedding)
-  const [timeline, setTimeline] = useState<TimelineItem[]>(fallbackTimeline)
   const [album, setAlbum] = useState<AlbumPhoto[]>(fallbackAlbum)
   const [events, setEvents] = useState<WeddingEvent[]>(fallbackEvents)
   const [wishes, setWishes] = useState<Wish[]>(fallbackWishes)
@@ -43,21 +41,20 @@ export default function InvitationPage() {
     let alive = true
     ;(async () => {
       try {
-        const [w, t, a, e, ws, g] = await Promise.all([
+        const [w, a, e, ws, g] = await Promise.all([
           publicApi.getWedding(slug),
-          publicApi.getTimeline(slug).catch(() => fallbackTimeline),
           publicApi.getAlbum(slug).catch(() => fallbackAlbum),
           publicApi.getEvents(slug).catch(() => fallbackEvents),
           publicApi.getWishes(slug).catch(() => fallbackWishes),
           publicApi.getGiftAccounts(slug).catch(() => fallbackGiftAccounts)
         ])
         if (!alive) return
-        setWedding(w); setTimeline(t); setAlbum(a); setEvents(e); setWishes(ws); setGifts(g)
+        setWedding(w); setAlbum(a); setEvents(e); setWishes(ws); setGifts(g)
         setIsFallback(false)
       } catch {
         if (!alive) return
         // API chưa chạy / lỗi: dùng fallback DEV và báo rõ trên UI.
-        setWedding(fallbackWedding); setTimeline(fallbackTimeline); setAlbum(fallbackAlbum)
+        setWedding(fallbackWedding); setAlbum(fallbackAlbum)
         setEvents(fallbackEvents); setWishes(fallbackWishes); setGifts(fallbackGiftAccounts)
         setIsFallback(true)
       } finally {
@@ -107,7 +104,6 @@ export default function InvitationPage() {
             </section>
             <Countdown targetDate={`${wedding.weddingDate}T${wedding.ceremonyTime || '08:00'}:00`} />
             <Invitation wedding={wedding} events={events} />
-            <Timeline items={timeline} />
             <AlbumGallery photos={album} />
             <GiftBox accounts={gifts} />
             <RsvpForm slug={slug} />
