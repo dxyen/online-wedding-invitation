@@ -2,10 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Tokens port từ thiệp artifact thiep-cuoi-hien-dai (:root) ===== */
+:root {
+  --cream: #f9f1e6;
+  --cream-2: #f2e6d2;
+  --paper: #fffaf2;
+  --paper-2: #faf1e3;
+  --brown: #6f4e37;
+  --brown-dark: #402d1c;
+  --brown-mid: #8a6a51;
+  --tan: #c2a077;
+  --tan-soft: #e8d5b5;
+  --line: #e6d7bf;
+  --ink: #4c3a29;
+  --ink-soft: #8d7c6b;
+  --shadow: 0 18px 45px rgba(111, 78, 55, 0.16);
+}
+
 html { scroll-behavior: smooth; }
 body {
-  background-color: #FAF6F0;
-  color: #4A3428;
+  background-color: #f7ecdc;
+  background-image: radial-gradient(rgba(111, 78, 55, 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: #4c3a29;
   font-family: 'Be Vietnam Pro', ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -25,18 +44,36 @@ body {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.15); }
 }
+@keyframes fall {
+  from { transform: translateY(-5vh) rotate(0deg); }
+  to { transform: translateY(105vh) rotate(50deg); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
 .animate-fade-up { animation: fadeUp 0.8s ease both; }
 .animate-fade-in { animation: fadeIn 0.8s ease both; }
 .animate-float-slow { animation: floatSlow 4s ease-in-out infinite; }
 .animate-heart { animation: heartBeat 1.6s ease-in-out infinite; }
+.animate-spin-slow { animation: spinSlow 5s linear infinite; }
 
-.fade-in-section { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.fade-in-section { opacity: 0; transform: translateY(16px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
 
 .font-display { font-family: 'Playfair Display', serif; }
 .font-hand { font-family: 'Dancing Script', cursive; }
 
+/* ===== Class dùng chung cũ — giữ nguyên cho trang Admin / NotFound ===== */
 .btn-gold {
   @apply inline-flex items-center justify-center gap-2 rounded-full bg-brown px-6 py-3 text-sm font-semibold tracking-wide text-cream transition hover:bg-brown-dark;
 }
@@ -48,3 +85,319 @@ body {
   @apply w-full rounded-xl border border-brown/20 bg-white px-4 py-2.5 text-sm text-brown-dark outline-none transition focus:border-brown focus:ring-2 focus:ring-brown/20;
 }
 .label { @apply mb-1.5 block text-sm font-medium text-brown-dark; }
+
+/* ===== Khung thiệp (artifact: .page 520px) ===== */
+.page {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--cream);
+  min-height: 100vh;
+  box-shadow: 0 0 60px rgba(62, 43, 29, 0.18);
+  overflow: hidden;
+  position: relative;
+}
+.inv-section { padding: 56px 28px 8px; text-align: center; }
+
+/* ===== Tiêu đề mục (artifact) ===== */
+.inv-heading { text-align: center; margin: 0 auto; max-width: 420px; }
+.kicker {
+  letter-spacing: 0.34em;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--brown-mid);
+  text-transform: uppercase;
+}
+.inv-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--brown-dark);
+  margin-top: 10px;
+}
+.inv-title-upper { text-transform: uppercase; letter-spacing: 0.05em; }
+.script-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 40px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--brown);
+  margin-top: 6px;
+}
+.sub {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-soft);
+  font-weight: 300;
+  max-width: 400px;
+  margin: 14px auto 0;
+}
+.orn { display: flex; align-items: center; justify-content: center; gap: 12px; color: var(--tan); font-size: 15px; margin-top: 14px; }
+.orn-line { display: block; width: 64px; height: 1px; background: linear-gradient(90deg, transparent, var(--tan)); }
+.orn-line:last-child { background: linear-gradient(90deg, var(--tan), transparent); }
+
+/* ===== Nút + thẻ + form (artifact) ===== */
+.inv-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: none;
+  border-radius: 999px;
+  padding: 13px 30px;
+  background: var(--brown);
+  color: #fff8ee;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  box-shadow: 0 10px 22px rgba(111, 78, 55, 0.32);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.inv-btn:hover { background: var(--brown-dark); transform: translateY(-1px); }
+.inv-btn:disabled { opacity: 0.6; cursor: default; transform: none; }
+.inv-btn-ghost { background: transparent; color: var(--brown); border: 1px solid var(--brown); box-shadow: none; }
+.inv-btn-small { padding: 10px 20px; font-size: 13px; }
+.inv-btn-block { width: 100%; margin-top: 22px; }
+.inv-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 28px 22px;
+  box-shadow: 0 10px 26px rgba(111, 78, 55, 0.09);
+  margin-top: 22px;
+}
+.inv-form { max-width: 400px; margin: 22px auto 0; text-align: left; }
+.inv-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--brown-dark);
+  margin: 16px 0 7px;
+}
+.inv-input {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--paper-2);
+  border-radius: 11px;
+  padding: 12px 14px;
+  font-size: 14.5px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.inv-input:focus { border-color: var(--tan); box-shadow: 0 0 0 3px rgba(194, 160, 119, 0.28); }
+textarea.inv-input { min-height: 84px; resize: vertical; }
+.inv-pills { display: flex; gap: 9px; flex-wrap: wrap; }
+.inv-pill {
+  border: 1px solid var(--line);
+  background: var(--paper);
+  border-radius: 999px;
+  padding: 9px 17px;
+  font-size: 13.5px;
+  color: var(--ink);
+  cursor: pointer;
+}
+.inv-pill[aria-pressed="true"] { background: var(--brown); color: #fff8ee; border-color: var(--brown); }
+.inv-error { color: #a34a3f; font-size: 13.5px; margin-top: 12px; }
+.inv-done { background: #f4ecdc; border: 1px solid var(--tan-soft); border-radius: 14px; padding: 20px; margin-top: 22px; text-align: center; }
+.inv-done-big { font-family: 'Dancing Script', cursive; font-size: 30px; color: var(--brown); }
+.inv-done p:last-child { font-size: 13.5px; color: var(--ink-soft); line-height: 1.7; margin-top: 6px; }
+
+/* ===== Bìa (artifact #cover) ===== */
+.cover-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: linear-gradient(180deg, #fdf8f0 0%, #f7ecdc 55%, #f0e0c6 100%);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.petal {
+  position: absolute;
+  top: -20px;
+  width: 13px;
+  height: 17px;
+  background: #eccdb4;
+  border-radius: 80% 4px 80% 4px;
+  opacity: 0.9;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.cover-card {
+  position: relative;
+  z-index: 2;
+  width: min(430px, 100%);
+  max-height: 94vh;
+  overflow-y: auto;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  outline: 1px solid var(--line);
+  outline-offset: -9px;
+  padding: 38px 30px 34px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.cover-names { font-family: 'Playfair Display', serif; font-size: 34px; line-height: 1.25; font-weight: 600; color: var(--brown-dark); margin-top: 12px; }
+.cover-names .amp { display: block; font-family: 'Dancing Script', cursive; font-size: 30px; color: var(--tan); line-height: 1.4; }
+.cover-date { letter-spacing: 0.3em; font-size: 14px; color: var(--brown); font-weight: 600; margin-top: 10px; }
+.arch {
+  width: 210px;
+  height: 280px;
+  margin: 22px auto 6px;
+  border-radius: 999px 999px 14px 14px;
+  overflow: hidden;
+  border: 6px solid #7a5a3e;
+  box-shadow: inset 0 0 0 2px #c2a077, 0 14px 30px rgba(111, 78, 55, 0.25);
+  background: var(--cream-2);
+}
+.arch img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cover-guest { margin-top: 18px; }
+.cover-guest .lbl { letter-spacing: 0.28em; font-size: 11px; color: var(--brown-mid); text-transform: uppercase; }
+.cover-guest .name { font-family: 'Dancing Script', cursive; font-size: 32px; color: var(--brown-dark); margin-top: 4px; }
+.cover-guest p { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+.cover-btn { margin-top: 22px; }
+
+/* ===== Hero (artifact .hero) ===== */
+.hero { padding: 64px 28px 10px; background: linear-gradient(180deg, #fdf8f0, var(--cream)); text-align: center; }
+.hero-save { letter-spacing: 0.42em; font-size: 11px; color: var(--brown-mid); font-weight: 600; }
+.hero-names { font-family: 'Dancing Script', cursive; font-size: 56px; line-height: 1.15; font-weight: 700; color: var(--brown-dark); margin-top: 14px; }
+@media (max-width: 420px) { .hero-names { font-size: 48px; } }
+.hero-date { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
+.hero-day { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 600; color: var(--brown-dark); line-height: 1; }
+.hero-side { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brown); border-top: 1px solid var(--tan); border-bottom: 1px solid var(--tan); padding: 5px 2px; line-height: 1.7; }
+.wood-frame {
+  margin: 28px auto 8px;
+  width: min(360px, 88%);
+  padding: 12px;
+  border-radius: 200px 200px 16px 16px;
+  background: linear-gradient(145deg, #a97c50, #7a5a3e 45%, #96754f 70%, #6b4a2f);
+  box-shadow: inset 0 0 0 2px rgba(255, 240, 220, 0.4), 0 22px 44px rgba(111, 78, 55, 0.28);
+}
+.wood-inner { border-radius: 190px 190px 10px 10px; overflow: hidden; border: 3px solid #e8d5b5; background: var(--cream-2); }
+.wood-inner img { width: 100%; height: 470px; object-fit: cover; display: block; }
+@media (max-width: 420px) { .wood-inner img { height: 410px; } }
+
+/* ===== Đếm ngược (artifact .count) ===== */
+.count { display: flex; gap: 10px; justify-content: center; margin: 24px auto 6px; }
+.count-cell { width: 70px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 12px 0 9px; box-shadow: 0 6px 16px rgba(111, 78, 55, 0.08); }
+.count-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--brown-dark); font-variant-numeric: tabular-nums; }
+.count-lbl { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-top: 5px; }
+.count-note { font-size: 13.5px; color: var(--ink-soft); margin-top: 14px; }
+
+/* ===== Lịch tháng 12 (artifact .cal) ===== */
+.cal { max-width: 330px; margin: 20px auto 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px 14px; box-shadow: 0 10px 26px rgba(111, 78, 55, 0.09); }
+.cal-month { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--brown-dark); letter-spacing: 0.14em; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-top: 10px; }
+.cal-weekday { font-size: 10.5px; letter-spacing: 0.08em; color: var(--brown-mid); font-weight: 600; padding: 4px 0; }
+.cal-day { font-size: 13.5px; color: var(--ink); height: 34px; display: flex; align-items: center; justify-content: center; }
+.cal-day-dim { color: #d9c7ab; }
+.cal-wed { position: relative; }
+.cal-heart { position: absolute; inset: -7px 0 0 0; font-size: 37px; color: rgba(201, 90, 74, 0.85); line-height: 1; display: flex; align-items: center; justify-content: center; }
+.cal-wed b { position: relative; z-index: 1; color: #fff; font-size: 13px; font-weight: 600; }
+.cal-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 10px; }
+
+/* ===== Thẻ cô dâu / chú rể ===== */
+.inv-couple { display: grid; gap: 16px; margin-top: 22px; }
+.inv-couple-card { background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 24px 22px; box-shadow: 0 10px 26px rgba(111, 78, 55, 0.09); text-align: center; }
+.inv-couple-role { font-family: 'Dancing Script', cursive; font-size: 28px; color: var(--tan); }
+.inv-couple-name { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: var(--brown-dark); margin-top: 4px; }
+.inv-couple-parents { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
+.inv-couple-bio { font-size: 13.5px; line-height: 1.7; color: var(--ink-soft); font-weight: 300; margin-top: 8px; }
+
+/* ===== Thẻ sự kiện gộp (artifact .event-card) ===== */
+.event-card { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 36px 30px 30px; box-shadow: 0 10px 26px rgba(111, 78, 55, 0.09); margin-top: 22px; text-align: center; }
+.event-card::before { content: ''; position: absolute; inset: 9px; border: 1px solid var(--tan-soft); border-radius: 12px; pointer-events: none; }
+.event-orn { color: var(--tan); font-size: 16px; }
+.event-card h3 { font-family: 'Playfair Display', serif; font-size: 23px; font-weight: 600; color: var(--brown-dark); margin-top: 8px; }
+.event-time { font-family: 'Playfair Display', serif; font-size: 48px; line-height: 1.1; font-weight: 700; color: var(--brown); margin-top: 12px; }
+.event-when { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+.event-date { display: flex; align-items: center; justify-content: center; gap: 11px; font-family: 'Playfair Display', serif; font-size: 15.5px; font-weight: 600; color: var(--brown-dark); letter-spacing: 0.05em; margin-top: 15px; }
+.event-star { color: var(--tan); font-size: 11px; }
+.event-divider { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--tan); font-size: 11px; margin: 18px auto 0; }
+.event-div-line { display: block; width: 58px; height: 1px; background: linear-gradient(90deg, transparent, var(--tan)); }
+.event-div-line:last-child { background: linear-gradient(90deg, var(--tan), transparent); }
+.event-desc { font-size: 13.5px; line-height: 1.8; color: var(--ink-soft); max-width: 330px; margin: 7px auto 0; }
+.inv-actions { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+
+/* ===== Timeline (artifact .timeline) ===== */
+.tl { max-width: 360px; margin: 24px auto 0; text-align: left; padding-left: 8px; position: relative; }
+.tl::before { content: ''; position: absolute; left: 90px; top: 0; bottom: 0; width: 1px; background: var(--line); }
+.tl-row { display: flex; padding: 11px 0; }
+.tl-time { width: 64px; flex-shrink: 0; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 15px; color: var(--brown); text-align: right; padding-top: 2px; }
+.tl-dot { flex-shrink: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--cream); border: 2px solid var(--tan); margin: 4px 14px 0 13px; }
+.tl-body { min-width: 0; }
+.tl-body b { display: block; font-size: 14.5px; font-weight: 600; color: var(--brown-dark); }
+.tl-body span { display: block; font-size: 13px; color: var(--ink-soft); font-weight: 300; line-height: 1.6; margin-top: 2px; }
+.tl-img { margin-top: 10px; width: 100%; height: 160px; object-fit: cover; border-radius: 12px; display: block; }
+
+/* ===== Album (artifact .album) ===== */
+.album-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+.album-tile { border: none; border-radius: 14px; overflow: hidden; box-shadow: 0 8px 20px rgba(111, 78, 55, 0.14); padding: 0; background: transparent; cursor: pointer; }
+.album-tile img { width: 100%; height: 250px; object-fit: cover; display: block; transition: transform 0.5s ease; }
+.album-tile:hover img { transform: scale(1.05); }
+.album-tall { grid-row: span 2; }
+.album-tall img { height: 512px; }
+@media (max-width: 420px) {
+  .album-tile img { height: 205px; }
+  .album-tall img { height: 422px; }
+}
+.album-lightbox { position: fixed; inset: 0; z-index: 70; background: rgba(43, 30, 20, 0.94); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.album-lightbox img { max-height: 76vh; max-width: min(92vw, 560px); border-radius: 12px; object-fit: contain; }
+.album-lb-btn { border: none; background: rgba(255, 250, 242, 0.16); color: #fff8ee; border-radius: 999px; padding: 8px 16px; font-size: 13px; cursor: pointer; }
+.album-lb-btn:hover { background: rgba(255, 250, 242, 0.3); }
+
+/* ===== Hộp quà (artifact .gift-stage / .gift-modal) ===== */
+.gift-stage { width: 260px; height: 272px; margin: 6px auto 0; position: relative; cursor: pointer; }
+.gift-shadow { position: absolute; left: 50%; margin-left: -72px; bottom: 14px; width: 144px; height: 12px; border-radius: 50%; background: rgba(62, 43, 29, 0.32); filter: blur(4px); }
+.gift-bob { position: absolute; left: 50%; margin-left: -100px; bottom: 24px; width: 200px; height: 220px; display: flex; align-items: flex-end; justify-content: center; }
+.gift-bob-inner { animation: bob 3.4s ease-in-out infinite; }
+.gift-main { width: 170px; height: auto; display: block; filter: drop-shadow(0 10px 16px rgba(111, 78, 55, 0.28)); }
+.gift-mini { position: absolute; width: 40px; height: 36px; }
+.gift-sparkle { position: absolute; color: var(--tan); animation: twinkle 2.4s ease-in-out infinite; }
+.gift-hint { font-size: 12.5px; font-weight: 500; color: var(--ink-soft); margin-top: 10px; text-align: center; }
+.gift-modal { position: fixed; inset: 0; z-index: 80; background: rgba(43, 30, 20, 0.55); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.gift-panel { background: var(--paper); border-radius: 18px; width: 100%; max-width: 430px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35); }
+.gift-panel-head { background: var(--brown-dark); padding: 20px 44px 16px; border-radius: 18px 18px 0 0; position: relative; text-align: center; }
+.gift-panel-head h3 { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #fff8ee; }
+.gift-panel-close { position: absolute; right: 12px; top: 12px; width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent; color: #fff8ee; font-size: 16px; cursor: pointer; }
+.gift-panel-close:hover { background: rgba(255, 248, 238, 0.15); }
+.gift-cards { display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 24px 18px 28px; }
+.gift-card { max-width: 252px; width: 100%; text-align: center; }
+.g-who { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--brown-dark); }
+.g-qr { aspect-ratio: 1 / 1; background: #fff; border: 2px solid var(--tan-soft); border-radius: 12px; padding: 10px; box-shadow: 0 8px 18px rgba(111, 78, 55, 0.14); margin-top: 10px; }
+.g-qr img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; display: block; }
+.g-bank { font-size: 11.5px; line-height: 1.6; color: var(--ink); margin-top: 10px; }
+.g-bank .num { font-family: ui-monospace, monospace; letter-spacing: 0.04em; }
+.mini-btn { border: none; background: var(--cream-2); color: var(--brown-dark); border-radius: 999px; padding: 5px 14px; font-size: 11px; font-weight: 600; cursor: pointer; }
+.mini-btn:hover { background: var(--tan-soft); }
+.mini-btn:disabled { opacity: 0.5; cursor: default; }
+.qr-zoom { position: fixed; inset: 0; z-index: 90; background: rgba(43, 30, 20, 0.93); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; cursor: pointer; }
+.qr-zoom img { background: #fff; border-radius: 14px; padding: 14px; width: min(92vw, 420px); }
+.qr-zoom p { color: #fff8ee; font-size: 12.5px; margin-top: 12px; text-align: center; line-height: 1.6; }
+
+/* ===== Sổ lưu bút (artifact .wishes) ===== */
+.wishes { max-width: 420px; margin: 22px auto 0; text-align: left; display: grid; gap: 12px; }
+.wish { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+.wish-who { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.wish-who b { font-size: 14px; color: var(--brown-dark); }
+.wish-who time { font-size: 11.5px; color: var(--ink-soft); }
+.wish p { font-size: 13.5px; line-height: 1.7; font-weight: 300; color: var(--ink); margin-top: 6px; }
+
+/* ===== Chân thiệp (artifact footer) ===== */
+.inv-footer { margin-top: 64px; text-align: center; padding: 52px 28px 90px; background: linear-gradient(180deg, var(--cream), #f2e5cf); border-top: 1px solid var(--line); }
+.inv-mono { width: 74px; height: 74px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; border: 1px solid var(--tan); border-radius: 50%; background: var(--paper); font-family: 'Playfair Display', serif; font-size: 21px; color: var(--brown); }
+.inv-mono span { color: var(--tan); font-size: 15px; }
+.inv-thanks { font-family: 'Dancing Script', cursive; font-size: 38px; color: var(--brown-dark); text-align: center; margin-top: 18px; }
+.inv-footer-text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.8; max-width: 380px; margin: 10px auto 0; }
+.inv-src { font-size: 11.5px; color: var(--ink-soft); margin-top: 26px; }
+
+/* ===== Dock nhạc (artifact .music-dock) ===== */
+.music-dock { position: fixed; right: 16px; bottom: 18px; z-index: 50; display: flex; align-items: center; gap: 8px; }
+.music-label { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font-size: 11.5px; color: var(--brown-dark); box-shadow: 0 10px 24px rgba(111, 78, 55, 0.16); max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.music-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); color: var(--brown); font-size: 19px; cursor: pointer; box-shadow: 0 10px 24px rgba(111, 78, 55, 0.16); display: flex; align-items: center; justify-content: center; }

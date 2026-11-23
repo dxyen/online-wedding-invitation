@@ -12,7 +12,7 @@ export interface MusicToggleHandle {
   start: () => void
 }
 
-const MusicToggle = forwardRef<MusicToggleHandle>(function MusicToggle(_, ref) {
+const MusicToggle = forwardRef<MusicToggleHandle, { visible?: boolean }>(function MusicToggle({ visible = true }, ref) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [playing, setPlaying] = useState(false)
   const startedRef = useRef(false)
@@ -58,6 +58,7 @@ const MusicToggle = forwardRef<MusicToggleHandle>(function MusicToggle(_, ref) {
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
+    audio.volume = 0.85
     const onPlay = () => setPlaying(true)
     const onPause = () => setPlaying(false)
     const onEnded = () => {
@@ -76,21 +77,24 @@ const MusicToggle = forwardRef<MusicToggleHandle>(function MusicToggle(_, ref) {
   }, [seekToStart])
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2">
-      <span className="max-w-[220px] truncate rounded-full bg-white/85 px-3 py-1 text-xs font-medium text-brown-dark shadow backdrop-blur">
-        {SONG_LABEL}
-      </span>
-      <button
-        type="button"
-        onClick={toggle}
-        aria-label={playing ? 'Tạm dừng nhạc nền' : 'Phát nhạc nền'}
-        aria-pressed={playing}
-        className="flex h-12 w-12 items-center justify-center rounded-full bg-brown text-xl text-cream shadow-lg transition hover:bg-brown-dark"
-        title={`${SONG_LABEL} — ${playing ? 'đang phát, bấm để tạm dừng' : 'bấm để phát'}`}
-      >
-        {playing ? '♪' : '♫'}
-      </button>
-    </div>
+    <>
+      {/* Thẻ <audio> luôn gắn trong DOM để audioRef có phần tử thật;
+          dock chỉ hiện sau khi bấm "Mở Thiệp" (visible). */}
+      <audio ref={audioRef} src={MUSIC_SRC} preload="metadata" />
+      <div className="music-dock" style={{ display: visible ? 'flex' : 'none' }}>
+        <span className="music-label">♫ {SONG_LABEL}</span>
+        <button
+          type="button"
+          onClick={toggle}
+          aria-label={playing ? 'Tạm dừng nhạc nền' : 'Phát nhạc nền'}
+          aria-pressed={playing}
+          className={`music-btn${playing ? ' animate-spin-slow' : ''}`}
+          title={`${SONG_LABEL} — ${playing ? 'đang phát, bấm để tạm dừng' : 'bấm để phát'}`}
+        >
+          {playing ? '♪' : '♫'}
+        </button>
+      </div>
+    </>
   )
 })
 

@@ -34,25 +34,38 @@ export default function WishBook({ slug, wishes, onSent }: { slug: string; wishe
   }
 
   return (
-    <section id="wishes" className="mx-auto max-w-3xl px-4 py-12">
+    <section id="wishes" className="inv-section">
       <SectionHeading eyebrow="Sổ Lưu Bút" title="Gửi Lời Chúc" subtitle="Mỗi lời chúc của bạn là một món quà tinh thần dành cho Thanh Trúc & Xuân Yên." />
       <div ref={ref} className="fade-in-section">
-        <form onSubmit={submit} className="card space-y-4">
-          <div><label className="label" htmlFor="wish-name">Tên của bạn *</label><input id="wish-name" className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Tên của bạn" /></div>
-          <div><label className="label" htmlFor="wish-msg">Lời chúc *</label><textarea id="wish-msg" className="input" rows={3} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Viết lời chúc hạnh phúc…" /></div>
-          {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-          {success && <p className="rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">{success}</p>}
-          <button type="submit" disabled={loading} className="btn-gold w-full disabled:opacity-60">{loading ? 'Đang gửi…' : 'Gửi lời chúc ♥'}</button>
+        <form onSubmit={submit} className="inv-form">
+          <div>
+            <label className="inv-label" htmlFor="wish-name">Tên của bạn *</label>
+            <input id="wish-name" className="inv-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Tên của bạn" />
+          </div>
+          <div>
+            <label className="inv-label" htmlFor="wish-msg">Lời chúc *</label>
+            <textarea id="wish-msg" className="inv-input" rows={3} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Viết lời chúc hạnh phúc…" />
+          </div>
+          {error && <p className="inv-error">{error}</p>}
+          {success && (
+            <div className="inv-done">
+              <p className="inv-done-big">Cảm ơn bạn!</p>
+              <p>{success}</p>
+            </div>
+          )}
+          <button type="submit" disabled={loading} className="inv-btn inv-btn-block">{loading ? 'Đang gửi…' : 'Gửi Lời Chúc'}</button>
         </form>
-        <div className="mt-8 space-y-4">
+        <div className="wishes">
           {wishes.map((w, i) => (
-            <article key={w.id ?? i} className="card">
-              <p className="font-display text-lg font-semibold text-brown-dark">{w.guestName || w.senderName}</p>
-              <p className="mt-1 text-sm leading-relaxed text-brown/80">“{w.message}”</p>
-              {w.createdAt && <p className="mt-2 text-xs text-brown/50">{formatWishDate(w.createdAt)}</p>}
+            <article key={w.id ?? i} className="wish">
+              <div className="wish-who">
+                <b>{w.guestName || w.senderName}</b>
+                {w.createdAt && <time>{formatWishDate(w.createdAt)}</time>}
+              </div>
+              <p>“{w.message}”</p>
             </article>
           ))}
-          {wishes.length === 0 && <p className="text-center text-sm text-brown/70">Chưa có lời chúc nào được duyệt. Hãy là người đầu tiên gửi lời chúc nhé!</p>}
+          {wishes.length === 0 && <p className="count-note">Chưa có lời chúc nào được duyệt. Hãy là người đầu tiên gửi lời chúc nhé!</p>}
         </div>
       </div>
     </section>

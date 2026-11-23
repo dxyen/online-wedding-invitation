@@ -1,6 +1,7 @@
 import { useInView } from '../hooks/useInView'
 import type { Wedding, WeddingEvent } from '../lib/types'
 import SectionHeading from './SectionHeading'
+import CalendarMonth from './CalendarMonth'
 
 export const MAP_URL = 'https://maps.app.goo.gl/DGPB7o7WHyMbqfGv9?g_st=ifm'
 
@@ -11,15 +12,21 @@ function formatEventTime(ev: WeddingEvent): string {
   return ev.startTime ? ev.startTime.slice(0, 5) : '08:00'
 }
 
-function formatEventDate(ev: WeddingEvent): string {
-  const raw = ev.date || ev.eventDate
-  if (!raw) return '27/12/2026'
-  const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/)
-  if (m) {
-    const d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]))
-    return `${VI_WEEKDAYS[d.getDay()]}, ${m[3]}/${m[2]}/${m[1]}`
+// 'Chủ Nhật ✦ 27 · 12 · 2026' — như thẻ sự kiện trên bản artifact.
+function formatEventDateShort(ev: WeddingEvent, wedding: Wedding): string {
+  const raw = ev.date || ev.eventDate || wedding.weddingDate
+  if (!raw) return 'Chủ Nhật ✦ 27 · 12 · 2026'
+  let d: Date | null = null
+  let m = raw.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  if (m) d = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]))
+  else {
+    m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/)
+    if (m) d = new Date(Number(m[3]), Number(m[2]) - 1, Number(m[1]))
   }
-  return raw
+  if (!d || Number.isNaN(d.getTime())) return raw
+  const dd = String(d.getDate()).padStart(2, '0')
+  const mm = String(d.getMonth() + 1).padStart(2, '0')
+  return `${VI_WEEKDAYS[d.getDay()]} ✦ ${dd} · ${mm} · ${d.getFullYear()}`
 }
 
 function downloadIcs(wedding: Wedding) {
@@ -47,46 +54,42 @@ function downloadIcs(wedding: Wedding) {
 export default function Invitation({ wedding, events }: { wedding: Wedding; events: WeddingEvent[] }) {
   const ref = useInView<HTMLDivElement>()
   const list = events.length > 0 ? events : (wedding.events || [])
-  const shareUrl = `${window.location.origin}/w/${wedding.slug}`
-  const copyLink = async () => {
-    try { await navigator.clipboard.writeText(shareUrl); alert('Đã sao chép link thiệp!') } catch { alert(shareUrl) }
-  }
   return (
-    <section id="invitation" className="mx-auto max-w-5xl px-4 py-12">
-      <SectionHeading eyebrow="Trân trọng kính mời" title="Lời Mời" subtitle={wedding.invitationText} />
+    <section id="invitation" className="inv-section">
+      <SectionHeading eyebrow="Trân trọng kính mời" title="Lời Mời" script subtitle={wedding.invitationText} />
       <div ref={ref} className="fade-in-section">
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="card text-center">
-            <p className="font-hand text-3xl text-gold">Cô Dâu</p>
-            <h3 className="mt-2 font-display text-3xl font-semibold text-brown-dark">{wedding.brideName}</h3>
-            <p className="mt-2 text-sm text-brown/70">{wedding.couple?.brideParents || 'Con gái của gia đình họ nhà gái'}</p>
-            <p className="mt-3 text-sm leading-relaxed text-brown/80">{wedding.couple?.brideBio || ''}</p>
+        <div className="inv-couple">
+          <div className="inv-couple-card">
+            <p className="inv-couple-role">Cô Dâu</p>
+            <h3 className="inv-couple-name">{wedding.brideName}</h3>
+            <p className="inv-couple-parents">{wedding.couple?.brideParents || 'Con gái của gia đình họ nhà gái'}</p>
+            {wedding.couple?.brideBio && <p className="inv-couple-bio">{wedding.couple.brideBio}</p>}
           </div>
-          <div className="card text-center">
-            <p className="font-hand text-3xl text-gold">Chú Rể</p>
-            <h3 className="mt-2 font-display text-3xl font-semibold text-brown-dark">{wedding.groomName}</h3>
-            <p className="mt-2 text-sm text-brown/70">{wedding.couple?.groomParents || 'Con trai của gia đình họ nhà trai'}</p>
-            <p className="mt-3 text-sm leading-relaxed text-brown/80">{wedding.couple?.groomBio || ''}</p>
+          <div className="inv-couple-card">
+            <p className="inv-couple-role">Chú Rể</p>
+            <h3 className="inv-couple-name">{wedding.groomName}</h3>
+            <p className="inv-couple-parents">{wedding.couple?.groomParents || 'Con trai của gia đình họ nhà trai'}</p>
+            {wedding.couple?.groomBio && <p className="inv-couple-bio">{wedding.couple.groomBio}</p>}
           </div>
         </div>
-        <div className={`mt-6 grid gap-4 ${list.length === 1 ? 'mx-auto max-w-xl' : 'md:grid-cols-2'}`}>
-          {list.map((ev, i) => (
-            <div key={ev.id ?? i} className="card text-center">
-              <p className="font-hand text-2xl text-gold">{ev.title}</p>
-              <p className="mt-1 font-display text-4xl font-semibold text-brown-dark">{formatEventTime(ev)}</p>
-              <p className="mt-1 text-sm text-brown/70">Đón khách từ 07:30 · {formatEventDate(ev)}</p>
-              {ev.description && <p className="mt-2 text-sm text-brown/80">{ev.description}</p>}
+        <CalendarMonth />
+        {list.map((ev, i) => (
+          <div key={ev.id ?? i} className="event-card">
+            <p className="event-orn" aria-hidden="true">❦</p>
+            <h3>{ev.title}</h3>
+            <p className="event-time">{formatEventTime(ev)}</p>
+            <p className="event-when">Đón khách từ 07:30</p>
+            <p className="event-date">{formatEventDateShort(ev, wedding)}</p>
+            <div className="event-divider" aria-hidden="true">
+              <span className="event-div-line" /><span>♥</span><span className="event-div-line" />
             </div>
-          ))}
+            {ev.description && <p className="event-desc">{ev.description}</p>}
+          </div>
+        ))}
+        <div className="inv-actions">
+          <a className="inv-btn inv-btn-small" href={MAP_URL} target="_blank" rel="noreferrer">Xem Bản Đồ</a>
+          <button type="button" onClick={() => downloadIcs(wedding)} className="inv-btn inv-btn-small inv-btn-ghost">Thêm Vào Lịch</button>
         </div>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <a className="btn-gold" href={MAP_URL} target="_blank" rel="noreferrer">Xem Bản Đồ</a>
-          <button type="button" onClick={() => downloadIcs(wedding)} className="btn-outline">📅 Thêm vào lịch (.ics)</button>
-          <button type="button" onClick={copyLink} className="btn-outline">🔗 Copy link thiệp</button>
-          <a className="btn-outline" href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noreferrer">Chia sẻ Facebook</a>
-          <a className="btn-outline" href={`https://zalo.me/share?url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noreferrer">Chia sẻ Zalo</a>
-        </div>
-        <p className="mt-3 break-all text-center text-xs text-brown/50">{shareUrl}</p>
       </div>
     </section>
   )

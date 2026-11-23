@@ -42,6 +42,63 @@ async function makeQrDataUrl(payload: string): Promise<string> {
   return canvas.toDataURL('image/png')
 }
 
+// 7 hộp quà mini quanh hộp chính (màu như bản artifact).
+const MINI_GIFTS = [
+  { color: '#d84f4f', dark: '#b23434', left: 6, bottom: 30, rotate: -8, scale: 1 },
+  { color: '#b23a48', dark: '#8e2a38', left: 34, bottom: 96, rotate: 6, scale: 0.9 },
+  { color: '#7fae6d', dark: '#5f8a4c', left: 4, bottom: 150, rotate: -4, scale: 0.85 },
+  { color: '#f0aec2', dark: '#e28bab', right: 8, bottom: 34, rotate: 7, scale: 1 },
+  { color: '#b39ddb', dark: '#9678c9', right: 30, bottom: 100, rotate: -6, scale: 0.9 },
+  { color: '#f0cd72', dark: '#e0aa3e', right: 6, bottom: 158, rotate: 5, scale: 0.85 },
+  { color: '#f2a18f', dark: '#e07f66', left: 60, bottom: 190, rotate: -10, scale: 0.75 }
+]
+
+const SPARKLES = [
+  { left: 18, top: 30, size: 16, delay: 0 },
+  { left: 216, top: 60, size: 14, delay: 0.8 },
+  { left: 46, top: 8, size: 12, delay: 1.6 }
+]
+
+function MiniGift({ color, dark }: { color: string; dark: string }) {
+  return (
+    <svg viewBox="0 0 40 36" width="40" height="36" aria-hidden="true">
+      <rect x="4" y="12" width="32" height="22" rx="2" fill={color} />
+      <rect x="2" y="6" width="36" height="8" rx="2" fill={dark} />
+      <rect x="17" y="6" width="6" height="28" fill="#fff8ee" />
+      <rect x="2" y="8" width="36" height="4" fill="#fff8ee" opacity="0.85" />
+      <circle cx="20" cy="6" r="3" fill="#fff8ee" />
+    </svg>
+  )
+}
+
+function MainGift() {
+  return (
+    <svg viewBox="0 0 200 220" className="gift-main" aria-hidden="true">
+      <defs>
+        <linearGradient id="giftBody" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#fffaf0" />
+          <stop offset="100%" stopColor="#f6e7d0" />
+        </linearGradient>
+      </defs>
+      {/* Nơ */}
+      <ellipse cx="80" cy="50" rx="20" ry="12" fill="#b97f36" transform="rotate(-25 80 50)" />
+      <ellipse cx="120" cy="50" rx="20" ry="12" fill="#b97f36" transform="rotate(25 120 50)" />
+      <path d="M100 58 L88 78 L100 72 Z" fill="#b97f36" />
+      <path d="M100 58 L112 78 L100 72 Z" fill="#b97f36" />
+      <circle cx="100" cy="58" r="9" fill="#b97f36" />
+      {/* Nắp + thân hộp */}
+      <rect x="30" y="64" width="140" height="30" rx="6" fill="#f1dfc0" />
+      <rect x="38" y="94" width="124" height="96" rx="6" fill="url(#giftBody)" />
+      {/* Ruy băng */}
+      <rect x="91" y="64" width="18" height="126" fill="#d99a4e" />
+      <rect x="30" y="76" width="140" height="8" fill="#d99a4e" />
+      {/* Họa tiết cành trang trí */}
+      <path d="M56 118 q10 20 0 40" stroke="#dcbd8f" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M144 118 q-10 20 0 40" stroke="#dcbd8f" strokeWidth="2" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
 function QrCard({ account }: { account: GiftAccount }) {
   const [qrUrl, setQrUrl] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -62,7 +119,7 @@ function QrCard({ account }: { account: GiftAccount }) {
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(plainNumber); setCopied(true) } catch { alert(account.accountNumber) }
-    setTimeout(() => setCopied(false), 2000)
+    setTimeout(() => setCopied(false), 1800)
   }
   const download = () => {
     if (!qrUrl) return
@@ -73,26 +130,30 @@ function QrCard({ account }: { account: GiftAccount }) {
   }
 
   return (
-    <div className="card mx-auto w-full max-w-[320px] text-center">
-      <p className="font-hand text-2xl text-gold">{role === 'BRIDE' ? 'Cô Dâu' : 'Chú Rể'}</p>
-      <p className="mt-1 font-display text-2xl font-semibold text-brown-dark">{owner}</p>
-      <p className="mt-1 text-sm text-brown/70">{account.bankName}</p>
-      {qrUrl ? (
-        <button type="button" onClick={() => setEnlarged(true)} className="mx-auto mt-4 block" title="Chạm để xem lớn">
-          <img src={qrUrl} alt={`Mã QR chuyển khoản ${owner}`} className="w-[252px] max-w-full" style={{ imageRendering: 'pixelated' }} />
-        </button>
-      ) : (
-        <p className="mt-4 text-sm text-brown/70">Chưa có mã QR cho tài khoản này.</p>
-      )}
-      <p className="mt-3 font-mono text-xl tracking-wider text-brown-dark">{account.accountNumber}</p>
-      <p className="text-xs text-brown/60">{account.accountHolder}</p>
-      <div className="mt-4 flex justify-center gap-2">
-        <button type="button" onClick={copy} className="btn-outline">{copied ? '✓ Đã chép' : 'Chép STK'}</button>
-        <button type="button" onClick={download} disabled={!qrUrl} className="btn-outline disabled:opacity-50">Lưu QR</button>
+    <div className="gift-card">
+      <p className="g-who">{role === 'BRIDE' ? 'Cô Dâu' : 'Chú Rể'} · {owner}</p>
+      <div className="g-qr">
+        {qrUrl ? (
+          <button type="button" onClick={() => setEnlarged(true)} className="block h-full w-full" title="Chạm để xem lớn">
+            <img src={qrUrl} alt={`Mã QR chuyển khoản ${owner}`} />
+          </button>
+        ) : (
+          <p className="flex h-full items-center justify-center text-sm text-brown/70">Chưa có mã QR cho tài khoản này.</p>
+        )}
+      </div>
+      <p className="g-bank">
+        {account.bankName} · <span className="num">{account.accountNumber}</span>
+        <br />
+        {account.accountHolder}
+      </p>
+      <div className="mt-3 flex justify-center gap-2">
+        <button type="button" onClick={copy} className="mini-btn">{copied ? 'Đã chép ✓' : 'Chép STK'}</button>
+        <button type="button" onClick={download} disabled={!qrUrl} className="mini-btn">Lưu QR</button>
       </div>
       {enlarged && qrUrl && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={() => setEnlarged(false)}>
-          <img src={qrUrl} alt={`Mã QR chuyển khoản ${owner}`} className="w-full max-w-[420px] rounded-2xl bg-white p-3" />
+        <div className="qr-zoom" onClick={() => setEnlarged(false)} role="dialog" aria-label="Mã QR lớn">
+          <img src={qrUrl} alt={`Mã QR chuyển khoản ${owner}`} />
+          <p>{account.bankName} · {account.accountNumber}<br />{account.accountHolder}</p>
         </div>
       )}
     </div>
@@ -101,21 +162,68 @@ function QrCard({ account }: { account: GiftAccount }) {
 
 export default function GiftBox({ accounts }: { accounts: GiftAccount[] }) {
   const ref = useInView<HTMLDivElement>()
+  const [open, setOpen] = useState(false)
   // Cô dâu trước, chú rể sau — như trên thiệp.
   const ordered = [...accounts].sort((a, b) => {
     const rank = (r?: string) => (r === 'BRIDE' ? 0 : 1)
     return rank(a.role || a.side) - rank(b.role || b.side)
   })
   return (
-    <section className="mx-auto max-w-3xl px-4 py-12">
-      <SectionHeading eyebrow="Hộp Quà Mừng" title="Mừng Cưới" subtitle="Sự hiện diện của bạn đã là món quà quý giá nhất. Nếu muốn gửi quà mừng, bạn có thể quét mã QR dưới đây." />
-      <div ref={ref} className="fade-in-section space-y-6">
-        {ordered.length > 0 ? (
-          ordered.map((a) => <QrCard key={a.id ?? a.accountNumber} account={a} />)
-        ) : (
-          <p className="text-center text-sm text-brown/70">Chưa có thông tin tài khoản.</p>
-        )}
+    <section className="inv-section">
+      <SectionHeading eyebrow="Mừng Cưới" title="HỘP QUÀ MỪNG" uppercase subtitle="Sự hiện diện của bạn đã là món quà quý giá nhất. Nếu muốn gửi quà mừng, bạn có thể quét mã QR dưới đây." />
+      <div ref={ref} className="fade-in-section">
+        <div className="gift-stage" onClick={() => setOpen(true)} role="button" aria-label="Mở hộp quà mừng" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setOpen(true) }}>
+          <div className="gift-shadow" aria-hidden="true" />
+          <div className="gift-bob">
+            <div className="gift-bob-inner">
+              <MainGift />
+            </div>
+          </div>
+          {MINI_GIFTS.map((g, i) => (
+            <div
+              key={i}
+              className="gift-mini"
+              style={{
+                left: g.left !== undefined ? g.left : undefined,
+                right: g.right !== undefined ? g.right : undefined,
+                bottom: g.bottom,
+                transform: `rotate(${g.rotate}deg) scale(${g.scale})`
+              }}
+              aria-hidden="true"
+            >
+              <MiniGift color={g.color} dark={g.dark} />
+            </div>
+          ))}
+          {SPARKLES.map((s, i) => (
+            <span
+              key={i}
+              className="gift-sparkle"
+              style={{ left: s.left, top: s.top, fontSize: s.size, animationDelay: `${s.delay}s` }}
+              aria-hidden="true"
+            >
+              ✦
+            </span>
+          ))}
+        </div>
+        <p className="gift-hint">Nhấn để mở</p>
       </div>
+      {open && (
+        <div className="gift-modal" onClick={() => setOpen(false)} role="dialog" aria-label="Hộp quà mừng">
+          <div className="gift-panel" onClick={(e) => e.stopPropagation()}>
+            <div className="gift-panel-head">
+              <h3>Hộp Quà Mừng</h3>
+              <button type="button" onClick={() => setOpen(false)} className="gift-panel-close" aria-label="Đóng">✕</button>
+            </div>
+            <div className="gift-cards">
+              {ordered.length > 0 ? (
+                ordered.map((a) => <QrCard key={a.id ?? a.accountNumber} account={a} />)
+              ) : (
+                <p className="text-center text-sm text-brown/70">Chưa có thông tin tài khoản.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

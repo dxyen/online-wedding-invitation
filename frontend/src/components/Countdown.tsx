@@ -11,20 +11,22 @@ export default function Countdown({ targetDate }: { targetDate: string }) {
     { value: seconds, label: 'Giây' }
   ]
   return (
-    <section className="mx-auto max-w-5xl px-4 py-12">
-      <div ref={ref} className="fade-in-section card text-center">
-        <p className="font-hand text-3xl text-gold">Đếm ngược đến ngày hạnh phúc</p>
+    <section className="inv-section">
+      <div ref={ref} className="fade-in-section">
         {passed ? (
-          <p className="mt-4 font-display text-2xl text-brown-dark">Ngày cưới đã đến — chúc mừng hai bạn!</p>
+          <p className="count-note">Ngày trọng đại đã diễn ra — cảm ơn bạn đã đến chung vui cùng Trúc &amp; Yên ♥</p>
         ) : (
-          <div className="mt-6 grid grid-cols-4 gap-3 md:gap-6">
-            {items.map((it) => (
-              <div key={it.label} className="rounded-2xl bg-cream-dark px-2 py-4">
-                <p className="font-display text-3xl font-semibold text-brown-dark md:text-5xl">{String(it.value).padStart(2, '0')}</p>
-                <p className="mt-1 text-xs tracking-widest text-brown/70 md:text-sm">{it.label}</p>
-              </div>
-            ))}
-          </div>
+          <>
+            <div className="count">
+              {items.map((it) => (
+                <div key={it.label} className="count-cell">
+                  <p className="count-num">{String(it.value).padStart(2, '0')}</p>
+                  <p className="count-lbl">{it.label}</p>
+                </div>
+              ))}
+            </div>
+            <p className="count-note">Đếm ngược đến ngày trọng đại</p>
+          </>
         )}
       </div>
     </section>

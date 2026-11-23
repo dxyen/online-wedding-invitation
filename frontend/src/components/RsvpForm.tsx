@@ -17,7 +17,7 @@ export default function RsvpForm({ slug }: { slug: string }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(''); setSuccess('')
-    if (!name.trim()) { setError('Vui lòng nhập họ tên của bạn.'); return }
+    if (!name.trim()) { setError('Bạn vui lòng cho chúng mình biết họ tên nhé.'); return }
     if (!attending) { setError('Vui lòng chọn bạn có tham dự hay không.'); return }
     if (guestCount < 1 || guestCount > 10) { setError('Số khách phải từ 1 đến 10 người.'); return }
     setLoading(true)
@@ -31,25 +31,43 @@ export default function RsvpForm({ slug }: { slug: string }) {
   }
 
   return (
-    <section id="rsvp" className="mx-auto max-w-2xl px-4 py-12">
+    <section id="rsvp" className="inv-section">
       <SectionHeading eyebrow="RSVP" title="Xác Nhận Tham Dự" subtitle="Vui lòng xác nhận trước ngày 20/12/2026 để chúng tôi chuẩn bị đón tiếp chu đáo nhất." />
-      <div ref={ref} className="fade-in-section card">
-        <form onSubmit={submit} className="space-y-4">
-          <div><label className="label" htmlFor="rsvp-name">Họ và tên *</label><input id="rsvp-name" className="input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ví dụ: Nguyễn Văn A" /></div>
-          <div><label className="label" htmlFor="rsvp-phone">Số điện thoại</label><input id="rsvp-phone" className="input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="09xx xxx xxx" /></div>
-          <div>
-            <span className="label">Bạn có tham dự? *</span>
-            <div className="flex gap-3">
-              <label className="flex flex-1 cursor-pointer items-center gap-2 rounded-xl border border-brown/20 px-4 py-3 text-sm"><input type="radio" name="attending" checked={attending === 'yes'} onChange={() => setAttending('yes')} /> Có, tôi sẽ đến 🎉</label>
-              <label className="flex flex-1 cursor-pointer items-center gap-2 rounded-xl border border-brown/20 px-4 py-3 text-sm"><input type="radio" name="attending" checked={attending === 'no'} onChange={() => setAttending('no')} /> Tiếc là tôi không đến được</label>
-            </div>
+      <div ref={ref} className="fade-in-section">
+        {success ? (
+          <div className="inv-done">
+            <p className="inv-done-big">Cảm ơn bạn!</p>
+            <p>{success}</p>
           </div>
-          <div><label className="label" htmlFor="rsvp-count">Số khách (1–10)</label><input id="rsvp-count" type="number" min={1} max={10} className="input" value={guestCount} onChange={(e) => setGuestCount(Number(e.target.value))} /></div>
-          <div><label className="label" htmlFor="rsvp-msg">Lời nhắn (không bắt buộc)</label><textarea id="rsvp-msg" className="input" rows={3} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Ghi chú về món ăn, dị ứng…" /></div>
-          {error && <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
-          {success && <p className="rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">{success}</p>}
-          <button type="submit" disabled={loading} className="btn-gold w-full disabled:opacity-60">{loading ? 'Đang gửi…' : 'Gửi xác nhận'}</button>
-        </form>
+        ) : (
+          <form onSubmit={submit} className="inv-form">
+            <div>
+              <label className="inv-label" htmlFor="rsvp-name">Họ và tên *</label>
+              <input id="rsvp-name" className="inv-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ví dụ: Nguyễn Văn A" />
+            </div>
+            <div>
+              <label className="inv-label" htmlFor="rsvp-phone">Số điện thoại</label>
+              <input id="rsvp-phone" className="inv-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="09xx xxx xxx" />
+            </div>
+            <div>
+              <span className="inv-label">Bạn có tham dự? *</span>
+              <div className="inv-pills">
+                <button type="button" aria-pressed={attending === 'yes'} onClick={() => setAttending('yes')} className="inv-pill">✓ Sẽ tham dự</button>
+                <button type="button" aria-pressed={attending === 'no'} onClick={() => setAttending('no')} className="inv-pill">Rất tiếc, không thể đến</button>
+              </div>
+            </div>
+            <div>
+              <label className="inv-label" htmlFor="rsvp-count">Số khách (1–10)</label>
+              <input id="rsvp-count" type="number" min={1} max={10} className="inv-input" value={guestCount} onChange={(e) => setGuestCount(Number(e.target.value))} />
+            </div>
+            <div>
+              <label className="inv-label" htmlFor="rsvp-msg">Lời nhắn (không bắt buộc)</label>
+              <textarea id="rsvp-msg" className="inv-input" rows={3} value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Ghi chú về món ăn, dị ứng…" />
+            </div>
+            {error && <p className="inv-error">{error}</p>}
+            <button type="submit" disabled={loading} className="inv-btn inv-btn-block">{loading ? 'Đang gửi…' : 'Gửi Xác Nhận'}</button>
+          </form>
+        )}
       </div>
     </section>
   )

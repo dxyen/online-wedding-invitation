@@ -1,22 +1,54 @@
 import type { Wedding } from '../lib/types'
 
-export default function Cover({ wedding, onOpen }: { wedding: Wedding; onOpen: () => void }) {
+// 14 cánh hoa rơi trên bìa (artifact #cover).
+const PETALS = [
+  { left: 4, dur: 9, delay: 0 },
+  { left: 12, dur: 12, delay: 1.5 },
+  { left: 20, dur: 8, delay: 3 },
+  { left: 28, dur: 13, delay: 0.5 },
+  { left: 36, dur: 10, delay: 2 },
+  { left: 44, dur: 14, delay: 4 },
+  { left: 52, dur: 9.5, delay: 1 },
+  { left: 60, dur: 11, delay: 5 },
+  { left: 68, dur: 8.5, delay: 2.5 },
+  { left: 74, dur: 12.5, delay: 0.8 },
+  { left: 82, dur: 10.5, delay: 3.5 },
+  { left: 88, dur: 13.5, delay: 1.2 },
+  { left: 94, dur: 9, delay: 4.5 },
+  { left: 97, dur: 11.5, delay: 2.2 }
+]
+
+export default function Cover({ wedding, coverPhoto, onOpen }: { wedding: Wedding; coverPhoto?: string; onOpen: () => void }) {
   return (
-    <section id="top" className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-cream px-4 py-16 text-center">
-      <div className="pointer-events-none absolute inset-0 opacity-40" style={{ background: 'radial-gradient(circle at 50% 20%, #E6C87A33, transparent 60%)' }} />
-      <p className="animate-fade-in font-hand text-3xl text-gold md:text-4xl">Thiệp Mời Cưới</p>
-      <div className="animate-fade-up mt-6 flex h-28 w-28 items-center justify-center rounded-full border-2 border-gold/70 font-display text-4xl font-semibold text-brown-dark">
-        T <span className="animate-heart mx-1 text-2xl text-gold">♥</span> Y
+    <section className="cover-overlay" aria-label="Bìa thiệp cưới">
+      {PETALS.map((p, i) => (
+        <span
+          key={i}
+          className="petal"
+          style={{ left: `${p.left}%`, animationDuration: `${p.dur}s`, animationDelay: `${p.delay}s` }}
+          aria-hidden="true"
+        />
+      ))}
+      <div className="cover-card">
+        <p className="kicker">Thiệp Mời Cưới</p>
+        <h1 className="cover-names">
+          {wedding.brideName} <span className="amp">&amp;</span> {wedding.groomName}
+        </h1>
+        <p className="cover-date">27 · 12 · 2026</p>
+        <div className="arch">
+          {coverPhoto ? (
+            <img src={coverPhoto} alt={`${wedding.brideName} & ${wedding.groomName}`} />
+          ) : null}
+        </div>
+        <div className="cover-guest">
+          <p className="lbl">Trân trọng kính mời</p>
+          <p className="name">Quý khách</p>
+          <p>Đến dự lễ cưới của chúng tôi</p>
+        </div>
+        <button type="button" onClick={onOpen} className="inv-btn cover-btn">
+          Mở Thiệp
+        </button>
       </div>
-      <h1 className="animate-fade-up mt-8 font-display text-4xl font-semibold leading-tight text-brown-dark md:text-6xl">
-        Thanh Trúc <span className="font-hand text-gold">&amp;</span> Xuân Yên
-      </h1>
-      <p className="mt-4 text-sm tracking-[0.3em] text-brown/70">27 . 12 . 2026</p>
-      <p className="mt-2 text-sm text-brown/70">{wedding.venueName}</p>
-      <button type="button" onClick={onOpen} className="btn-gold animate-float-slow mt-10">
-        Mở Thiệp
-      </button>
-      <p className="mt-4 text-xs text-brown/50">Nhấn “Mở Thiệp” để xem toàn bộ nội dung</p>
     </section>
   )
 }
