@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useInView } from '../hooks/useInView'
 import type { AlbumPhoto } from '../lib/types'
+import { handleImgError } from '../lib/fallback'
 import SectionHeading from './SectionHeading'
 
 // Album 2 cột kiểu artifact: ảnh thứ 1 và thứ 4 cao gấp đôi (.tall),
@@ -24,7 +25,7 @@ export default function AlbumGallery({ photos }: { photos: AlbumPhoto[] }) {
             className={`album-tile${i % 4 === 0 || i % 4 === 3 ? ' album-tall' : ''}`}
             aria-label={`Xem ảnh ${i + 1}`}
           >
-            <img src={p.imageUrl} alt={p.caption || `Ảnh cưới ${i + 1}`} loading="lazy" />
+            <img src={p.imageUrl} alt={p.caption || `Ảnh cưới ${i + 1}`} loading="lazy" onError={(e) => handleImgError(e, i)} />
           </button>
         ))}
         {photos.length === 0 && <p className="count-note">Album đang được cập nhật.</p>}
@@ -32,7 +33,7 @@ export default function AlbumGallery({ photos }: { photos: AlbumPhoto[] }) {
       {current && selected !== null && (
         <div className="album-lightbox" onClick={close} role="dialog" aria-label="Xem ảnh lớn">
           <div className="flex flex-col items-center gap-4" onClick={(e) => e.stopPropagation()}>
-            <img src={current.imageUrl} alt={current.caption || 'Ảnh cưới'} />
+            <img src={current.imageUrl} alt={current.caption || 'Ảnh cưới'} onError={(e) => handleImgError(e, selected)} />
             {current.caption && <p className="text-center text-sm text-white">{current.caption}</p>}
             <div className="flex items-center gap-3">
               <button type="button" onClick={prev} className="album-lb-btn" aria-label="Ảnh trước">← Trước</button>

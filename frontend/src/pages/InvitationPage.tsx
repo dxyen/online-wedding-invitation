@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { publicApi } from '../lib/api'
-import { fallbackAlbum, fallbackEvents, fallbackGiftAccounts, fallbackWedding, fallbackWishes } from '../lib/fallback'
+import { fallbackAlbum, fallbackEvents, fallbackGiftAccounts, fallbackWedding, fallbackWishes, handleImgError } from '../lib/fallback'
 import type { AlbumPhoto, GiftAccount, Wedding, WeddingEvent, Wish } from '../lib/types'
 import Cover from '../components/Cover'
 import Countdown from '../components/Countdown'
@@ -97,7 +97,7 @@ export default function InvitationPage() {
               <div className="wood-frame">
                 <div className="wood-inner">
                   {heroPhoto ? (
-                    <img src={heroPhoto} alt={`${wedding.brideName} & ${wedding.groomName}`} />
+                    <img src={heroPhoto} alt={`${wedding.brideName} & ${wedding.groomName}`} onError={(e) => handleImgError(e, 1)} />
                   ) : null}
                 </div>
               </div>

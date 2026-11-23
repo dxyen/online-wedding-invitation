@@ -93,9 +93,9 @@ public class DataSeeder implements CommandLineRunner {
                     .eventDate(LocalDate.of(2026, 12, 27)).sortOrder(3).build());
 
             wedding.getAlbumPhotos().add(AlbumPhoto.builder()
-                    .wedding(wedding).imageUrl("/images/album/1.jpg").caption("Thanh Trúc & Xuân Yên").sortOrder(1).build());
+                    .wedding(wedding).imageUrl("https://www.aylesburyvale.biz/wp-content/uploads/2021/05/couple-wed.png").caption("Thanh Trúc & Xuân Yên").sortOrder(1).build());
             wedding.getAlbumPhotos().add(AlbumPhoto.builder()
-                    .wedding(wedding).imageUrl("/images/album/2.jpg").caption("Khoảnh khắc yêu thương").sortOrder(2).build());
+                    .wedding(wedding).imageUrl("https://cdn.prod.website-files.com/664d394ae6b5833c6ed82777/69717dbe6e831ed276d4c20b_thumb.jpg").caption("Khoảnh khắc yêu thương").sortOrder(2).build());
 
             // Tài khoản hộp quà THẬT (TPBank, VietQR) — qrPayload là chuỗi
             // payload VietQR giải mã từ mã QR thật; frontend vẽ mã QR từ chuỗi này.

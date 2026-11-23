@@ -2,8 +2,24 @@
 // Production path phải dùng API thật. Khi đang dùng fallback, UI hiển thị
 // banner "Chế độ xem trước — API chưa kết nối" để người xem biết rõ.
 import type { AlbumPhoto, GiftAccount, TimelineItem, Wedding, WeddingEvent, Wish } from './types'
+import type { SyntheticEvent } from 'react'
 
 export const FALLBACK_SLUG = 'thanh-truc-xuan-yen'
+
+// Ảnh cưới mẫu (cô dâu & chú rể thật, đã kiểm chứng tải được) dùng khi ảnh album
+// từ API tải lỗi — vd: seed cũ trong DB trỏ tới /images/album/*.jpg vốn không
+// tồn tại trên frontend nên khung ảnh trống. Ảnh thật up qua Admin sẽ thay thế.
+export const PLACEHOLDER_PHOTOS = [
+  'https://www.aylesburyvale.biz/wp-content/uploads/2021/05/couple-wed.png',
+  'https://cdn.prod.website-files.com/664d394ae6b5833c6ed82777/69717dbe6e831ed276d4c20b_thumb.jpg'
+]
+
+export function handleImgError(e: SyntheticEvent<HTMLImageElement>, index = 0): void {
+  const img = e.currentTarget
+  if (img.dataset.fallbackApplied) return
+  img.dataset.fallbackApplied = '1'
+  img.src = PLACEHOLDER_PHOTOS[index % PLACEHOLDER_PHOTOS.length]
+}
 
 export const fallbackWedding: Wedding = {
   id: 1,

@@ -1,4 +1,5 @@
 import type { Wedding } from '../lib/types'
+import { handleImgError } from '../lib/fallback'
 
 // 14 cánh hoa rơi trên bìa (artifact #cover).
 const PETALS = [
@@ -37,7 +38,7 @@ export default function Cover({ wedding, coverPhoto, onOpen }: { wedding: Weddin
         <p className="cover-date">27 · 12 · 2026</p>
         <div className="arch">
           {coverPhoto ? (
-            <img src={coverPhoto} alt={`${wedding.brideName} & ${wedding.groomName}`} />
+            <img src={coverPhoto} alt={`${wedding.brideName} & ${wedding.groomName}`} onError={(e) => handleImgError(e, 0)} />
           ) : null}
         </div>
         <div className="cover-guest">
