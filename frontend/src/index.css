@@ -110,7 +110,7 @@ body {
 .inv-title {
   font-family: 'Playfair Display', serif;
   font-size: 30px;
-  line-height: 1.25;
+  line-height: 1.2;
   font-weight: 600;
   color: var(--brown-dark);
   margin-top: 10px;
@@ -132,13 +132,13 @@ body {
   max-width: 400px;
   margin: 14px auto 0;
 }
-.sub strong { color: var(--brown-dark); font-weight: 600; }
-/* Câu trích dẫn Playfair italic 19px (hero + album) — như bản artifact. */
+.sub strong { color: var(--brown-dark); font-weight: 700; }
+/* Câu trích dẫn album: Playfair italic 19px — như bản artifact (.quote). */
 .inv-quote {
   font-family: 'Playfair Display', serif;
   font-style: italic;
   font-size: 19px;
-  line-height: 1.6;
+  line-height: 1.75;
   color: var(--brown-dark);
   max-width: 420px;
   margin: 14px auto 0;
@@ -212,12 +212,12 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
   cursor: pointer;
 }
 .inv-pill[aria-pressed="true"] { background: var(--brown); color: #fff8ee; border-color: var(--brown); }
-.inv-error { color: #a34a3f; font-size: 13.5px; margin-top: 12px; }
+.inv-error { color: #a34a3f; font-size: 12px; font-weight: 300; margin-top: 12px; }
 .inv-done { background: #f4ecdc; border: 1px solid var(--tan-soft); border-radius: 14px; padding: 20px; margin-top: 22px; text-align: center; }
 .inv-done-big { font-family: 'Dancing Script', cursive; font-size: 30px; color: var(--brown); }
-.inv-done-summary { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 13.5px; color: var(--ink); line-height: 1.7; }
-.inv-done-summary b { color: var(--brown-dark); }
-.inv-done p:last-child { font-size: 13.5px; color: var(--ink-soft); line-height: 1.7; margin-top: 6px; }
+.inv-done-summary { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 13.5px; font-weight: 300; color: var(--ink-soft); line-height: 1.7; }
+.inv-done-summary b { color: var(--ink-soft); }
+.inv-done p:last-child { font-size: 13.5px; font-weight: 300; color: var(--ink-soft); line-height: 1.7; margin-top: 6px; }
 
 /* ===== Bìa (artifact #cover) ===== */
 .cover-overlay {
@@ -258,7 +258,7 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
   text-align: center;
 }
 .cover-names { font-family: 'Playfair Display', serif; font-size: 34px; line-height: 1.25; font-weight: 600; color: var(--brown-dark); margin-top: 12px; }
-.cover-names .amp { display: block; font-family: 'Dancing Script', cursive; font-size: 30px; color: var(--tan); line-height: 1.4; }
+.cover-names .amp { display: block; font-family: 'Dancing Script', cursive; font-size: 30px; color: var(--tan); line-height: 1; }
 .cover-orn { color: var(--tan); font-size: 17px; margin-top: 10px; }
 .cover-date { letter-spacing: 0.3em; font-size: 14px; color: var(--brown); font-weight: 600; margin-top: 10px; }
 .arch {
@@ -275,7 +275,7 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
 .cover-guest { margin-top: 18px; }
 .cover-guest .lbl { letter-spacing: 0.28em; font-size: 11px; color: var(--brown-mid); text-transform: uppercase; }
 .cover-guest .name { font-family: 'Dancing Script', cursive; font-size: 32px; color: var(--brown-dark); margin-top: 4px; }
-.cover-guest p { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+.cover-guest p { font-size: 13.5px; font-weight: 300; color: var(--ink-soft); margin-top: 4px; }
 .cover-btn { margin-top: 22px; }
 
 /* ===== Hero (artifact .hero) ===== */
@@ -291,7 +291,6 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
 .hero-date { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
 .hero-day { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 600; color: var(--brown); line-height: 1; }
 .hero-side { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brown); border-top: 1px solid var(--tan); border-bottom: 1px solid var(--tan); padding: 5px 2px; line-height: 1.5; }
-.hero-quote { margin-top: 22px; }
 .wood-frame {
   margin: 28px auto 8px;
   width: min(360px, 88%);
@@ -307,7 +306,7 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
 /* ===== Đếm ngược (artifact .count) ===== */
 .count { display: flex; gap: 10px; justify-content: center; margin: 24px auto 6px; }
 .count-cell { width: 70px; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 12px 0 9px; box-shadow: 0 6px 16px rgba(111, 78, 55, 0.08); }
-.count-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--brown-dark); font-variant-numeric: tabular-nums; }
+.count-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; line-height: 1; color: var(--brown-dark); font-variant-numeric: tabular-nums; }
 .count-lbl { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-soft); margin-top: 5px; }
 .count-note { font-size: 13px; font-weight: 300; color: var(--ink-soft); margin-top: 14px; }
 
@@ -321,25 +320,26 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
 .cal-wed { position: relative; }
 .cal-heart { position: absolute; inset: -7px 0 0 0; font-size: 37px; color: rgba(201, 90, 74, 0.85); line-height: 1; display: flex; align-items: center; justify-content: center; }
 .cal-wed b { position: relative; z-index: 1; color: #fff; font-size: 13px; font-weight: 700; }
-.cal-note { font-size: 12.5px; color: var(--ink-soft); margin-top: 10px; }
+.cal-note { font-size: 12.5px; font-weight: 300; color: var(--ink-soft); margin-top: 10px; }
 
 /* ===== Tên cô dâu / chú rể trong mục Lời Mời (artifact: serif 21px) ===== */
-.inv-names { font-family: 'Playfair Display', serif; font-size: 21px; line-height: 1.4; color: var(--brown-dark); margin-top: 14px; text-align: center; }
+.inv-names { font-family: 'Playfair Display', serif; font-size: 21px; line-height: 1.6; color: var(--brown-dark); margin-top: 14px; text-align: center; }
 .inv-names span { display: block; }
+.inv-names-amp { font-family: 'Dancing Script', cursive; font-size: 24px; color: var(--tan); }
 
 /* ===== Thẻ sự kiện gộp (artifact .event-card) ===== */
 .event-card { position: relative; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; padding: 36px 30px 30px; box-shadow: 0 10px 26px rgba(111, 78, 55, 0.09); margin-top: 22px; text-align: center; }
 .event-card::before { content: ''; position: absolute; inset: 9px; border: 1px solid var(--tan-soft); border-radius: 12px; pointer-events: none; }
-.event-orn { color: var(--tan); font-size: 16px; }
+.event-orn { color: var(--tan); font-size: 16px; line-height: 1; }
 .event-card h3 { font-family: 'Playfair Display', serif; font-size: 23px; font-weight: 600; color: var(--brown-dark); margin-top: 8px; }
-.event-time { font-family: 'Playfair Display', serif; font-size: 48px; line-height: 1.1; font-weight: 700; color: var(--brown); margin-top: 12px; }
-.event-when { font-size: 13.5px; color: var(--ink-soft); margin-top: 4px; }
+.event-time { font-family: 'Playfair Display', serif; font-size: 48px; line-height: 1; font-weight: 700; color: var(--brown); margin-top: 12px; }
+.event-when { font-size: 13.5px; font-weight: 300; line-height: 1.7; color: var(--ink-soft); margin-top: 4px; }
 .event-date { display: flex; align-items: center; justify-content: center; gap: 11px; font-family: 'Playfair Display', serif; font-size: 15.5px; font-weight: 600; color: var(--brown-dark); letter-spacing: 0.05em; margin-top: 15px; }
 .event-star { color: var(--tan); font-size: 11px; }
 .event-divider { display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--tan); font-size: 11px; margin: 18px auto 0; }
 .event-div-line { display: block; width: 58px; height: 1px; background: linear-gradient(90deg, transparent, var(--tan)); }
 .event-div-line:last-child { background: linear-gradient(90deg, var(--tan), transparent); }
-.event-desc { font-size: 13.5px; line-height: 1.8; color: var(--ink-soft); max-width: 330px; margin: 7px auto 0; }
+.event-desc { font-size: 13.5px; font-weight: 300; line-height: 1.8; color: var(--ink-soft); max-width: 330px; margin: 7px auto 0; }
 .inv-actions { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px; }
 
 /* ===== Timeline (artifact .timeline) ===== */
@@ -366,10 +366,10 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
 }
 .album-lightbox { position: fixed; inset: 0; z-index: 70; background: rgba(43, 30, 20, 0.94); display: flex; align-items: center; justify-content: center; padding: 16px; }
 .album-lightbox img { max-height: 76vh; max-width: min(92vw, 560px); border-radius: 12px; object-fit: contain; }
-.album-lb-cap { font-size: 13px; color: #ead9c2; text-align: center; }
-.album-lb-btn { border: 1px solid rgba(255, 248, 238, 0.35); background: rgba(255, 250, 242, 0.12); color: #fff8ee; border-radius: 999px; padding: 8px 16px; font-size: 13px; cursor: pointer; }
+.album-lb-cap { font-size: 13px; font-weight: 300; color: #ead9c2; text-align: center; }
+.album-lb-btn { border: 1px solid rgba(255, 248, 238, 0.35); background: rgba(255, 250, 242, 0.12); color: #fff8ee; border-radius: 999px; padding: 8px 16px; font-size: 14px; cursor: pointer; }
 .album-lb-btn:hover { background: rgba(255, 250, 242, 0.3); }
-.album-note { font-size: 12px; color: var(--ink-soft); margin-top: 16px; text-align: center; }
+.album-note { font-size: 12px; font-weight: 300; color: var(--ink-soft); margin-top: 16px; text-align: center; }
 
 /* ===== Hộp quà (artifact .gift-stage / .gift-modal) ===== */
 .gift-stage { width: 260px; height: 272px; margin: 6px auto 0; position: relative; cursor: pointer; }
@@ -380,27 +380,28 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
 .gift-mini { position: absolute; width: 40px; height: 36px; }
 .gift-sparkle { position: absolute; color: var(--tan); animation: twinkle 2.4s ease-in-out infinite; }
 .gift-hint { font-size: 12.5px; font-weight: 500; color: var(--ink-soft); margin-top: 10px; text-align: center; }
-.gift-modal-note { font-size: 12px; color: var(--ink-soft); text-align: center; padding: 0 18px 22px; }
+.gift-modal-note { font-size: 12px; font-weight: 300; color: var(--ink-soft); text-align: center; padding: 0 18px 22px; }
 .gift-modal { position: fixed; inset: 0; z-index: 80; background: rgba(43, 30, 20, 0.55); display: flex; align-items: center; justify-content: center; padding: 16px; }
 .gift-panel { background: var(--paper); border-radius: 18px; width: 100%; max-width: 430px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35); }
 .gift-panel-head { background: var(--brown-dark); padding: 20px 44px 16px; border-radius: 18px 18px 0 0; position: relative; text-align: center; }
 .gift-panel-head h3 { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #fff8ee; }
-.gift-panel-close { position: absolute; right: 12px; top: 12px; width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent; color: #fff8ee; font-size: 16px; cursor: pointer; }
+.gift-panel-close { position: absolute; right: 12px; top: 12px; width: 32px; height: 32px; border-radius: 50%; border: none; background: transparent; color: rgba(255, 248, 238, 0.85); font-size: 15px; cursor: pointer; }
 .gift-panel-close:hover { background: rgba(255, 248, 238, 0.15); }
 .gift-cards { display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 24px 18px 28px; }
 .gift-card { max-width: 252px; width: 100%; text-align: center; }
-.g-who { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--brown-dark); }
+.g-who { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; letter-spacing: 0.04em; color: var(--brown-dark); }
 .g-qr { aspect-ratio: 1 / 1; background: #fff; border: 2px solid var(--tan-soft); border-radius: 12px; padding: 10px; box-shadow: 0 8px 18px rgba(111, 78, 55, 0.14); margin-top: 10px; }
 .g-qr img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; display: block; }
 .g-bank { font-size: 11.5px; line-height: 1.6; color: var(--ink); margin-top: 10px; }
-.g-bank .num { font-family: ui-monospace, monospace; letter-spacing: 0.04em; }
+.g-bank .num { font-variant-numeric: tabular-nums; }
+.g-bank b { color: var(--brown-dark); }
 .mini-btn { border: none; background: var(--cream-2); color: var(--brown-dark); border-radius: 999px; padding: 5px 14px; font-size: 11px; font-weight: 600; cursor: pointer; }
 .mini-btn:hover { background: var(--tan-soft); }
 .mini-btn:disabled { opacity: 0.5; cursor: default; }
 .qr-zoom { position: fixed; inset: 0; z-index: 90; background: rgba(43, 30, 20, 0.93); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; cursor: pointer; }
 .qr-zoom img { background: #fff; border-radius: 14px; padding: 14px; width: min(92vw, 420px); }
-.qr-zoom p { color: #fff8ee; font-size: 12.5px; margin-top: 12px; text-align: center; line-height: 1.6; }
-.qr-zoom-btn { margin-top: 16px; border: 1px solid rgba(255, 248, 238, 0.5); background: rgba(255, 250, 242, 0.12); color: #fff8ee; border-radius: 999px; padding: 8px 22px; font-size: 13px; cursor: pointer; }
+.qr-zoom p { color: #fff8ee; font-size: 14px; margin-top: 12px; text-align: center; line-height: 1.7; }
+.qr-zoom-btn { margin-top: 16px; border: none; background: var(--brown); color: #fff8ee; border-radius: 999px; padding: 8px 22px; font-size: 13px; font-weight: 500; cursor: pointer; }
 
 /* ===== Sổ lưu bút (artifact .wishes) ===== */
 .wishes { max-width: 420px; margin: 22px auto 0; text-align: left; display: grid; gap: 12px; }
@@ -415,10 +416,10 @@ textarea.inv-input { min-height: 84px; resize: vertical; }
 .inv-mono { width: 74px; height: 74px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 4px; border: 1px solid var(--tan); border-radius: 50%; background: var(--paper); font-family: 'Playfair Display', serif; font-size: 21px; color: var(--brown); }
 .inv-mono span { color: var(--tan); font-size: 15px; }
 .inv-thanks { font-family: 'Dancing Script', cursive; font-size: 38px; color: var(--brown-dark); text-align: center; margin-top: 18px; }
-.inv-footer-text { font-size: 13.5px; color: var(--ink-soft); line-height: 1.8; max-width: 380px; margin: 10px auto 0; }
-.inv-src { font-size: 11.5px; color: var(--ink-soft); margin-top: 26px; }
+.inv-footer-text { font-size: 13.5px; font-weight: 300; color: var(--ink-soft); line-height: 1.8; max-width: 380px; margin: 10px auto 0; }
+.inv-src { font-size: 11.5px; font-weight: 300; color: var(--ink-soft); margin-top: 26px; }
 
 /* ===== Dock nhạc (artifact .music-dock) ===== */
 .music-dock { position: fixed; right: 16px; bottom: 18px; z-index: 50; display: flex; align-items: center; gap: 8px; }
-.music-label { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font-size: 11.5px; color: var(--brown-dark); box-shadow: 0 10px 24px rgba(111, 78, 55, 0.16); max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.music-label { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; font-size: 11.5px; letter-spacing: 0.02em; color: var(--brown-dark); box-shadow: 0 10px 24px rgba(111, 78, 55, 0.16); max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .music-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--paper); border: 1px solid var(--line); color: var(--brown); font-size: 19px; cursor: pointer; box-shadow: 0 10px 24px rgba(111, 78, 55, 0.16); display: flex; align-items: center; justify-content: center; }

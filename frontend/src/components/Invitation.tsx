@@ -62,7 +62,7 @@ export default function Invitation({ wedding, events }: { wedding: Wedding; even
       <div ref={ref} className="fade-in-section">
         <p className="inv-names">
           <span>{wedding.brideName}</span>
-          <span>&amp;</span>
+          <span className="inv-names-amp">&amp;</span>
           <span>{wedding.groomName}</span>
         </p>
         <CalendarMonth />

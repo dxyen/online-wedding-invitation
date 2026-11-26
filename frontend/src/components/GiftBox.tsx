@@ -145,7 +145,7 @@ function QrCard({ account }: { account: GiftAccount }) {
       <p className="g-bank">
         {account.bankName} · <span className="num">{account.accountNumber}</span>
         <br />
-        {account.accountHolder}
+        <b>{account.accountHolder}</b>
       </p>
       <div className="mt-3 flex justify-center gap-2">
         <button type="button" onClick={download} disabled={!qrUrl} className="mini-btn">Lưu QR</button>
@@ -154,7 +154,7 @@ function QrCard({ account }: { account: GiftAccount }) {
       {enlarged && qrUrl && (
         <div className="qr-zoom" onClick={() => setEnlarged(false)} role="dialog" aria-label="Mã QR lớn">
           <img src={qrUrl} alt={`Mã QR chuyển khoản ${owner}`} />
-          <p>{account.bankName} · {account.accountNumber}<br />{account.accountHolder}</p>
+          <p>{account.bankName} · {account.accountNumber}<br /><b>{account.accountHolder}</b></p>
           <button type="button" className="qr-zoom-btn" onClick={() => setEnlarged(false)}>Đóng</button>
         </div>
       )}

@@ -108,7 +108,7 @@ export default function InvitationPage() {
                   ) : null}
                 </div>
               </div>
-              <p className="inv-quote hero-quote">Và rồi, giữa muôn vàn người, chúng ta tìm thấy nhau — để bắt đầu một hành trình mang tên trọn đời.</p>
+              <p className="sub">Và rồi, giữa muôn vàn người, chúng ta tìm thấy nhau — để bắt đầu một hành trình mang tên <i>trọn đời</i>.</p>
             </section>
             <Countdown targetDate={`${wedding.weddingDate}T${wedding.ceremonyTime || '08:00'}:00`} />
             <Invitation wedding={wedding} events={events} />
